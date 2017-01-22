@@ -48,3 +48,11 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# Netbeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
