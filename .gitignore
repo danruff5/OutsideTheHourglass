@@ -50,9 +50,11 @@ local.properties
 .recommenders/
 
 # Netbeans
-nbproject/private/
+nbproject/
+# nbproject/private/
 build/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+build.xml
