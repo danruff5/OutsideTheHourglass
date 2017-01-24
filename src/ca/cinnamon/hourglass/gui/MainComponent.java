@@ -119,8 +119,5 @@ public class MainComponent extends Canvas implements Runnable {
         // TODO: Draw Map.
         
         g.drawImage(screen.image, 0, 0, null);
-        
-        g.setColor(Color.RED);
-        g.fillRoundRect(256, 200, 10, 10, 3, 3);
     }
 }
