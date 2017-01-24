@@ -5,6 +5,8 @@
  */
 package ca.cinnamon.hourglass.gui;
 
+import ca.cinnamon.hourglass.entity.Entity;
+import ca.cinnamon.hourglass.entity.Player;
 import ca.cinnamon.hourglass.screen.Screen;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -13,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -24,6 +27,9 @@ public class MainComponent extends Canvas implements Runnable {
     public boolean running;
     private Screen screen;
     public Keys keys;
+    
+    public Player player;
+    public ArrayList<Entity> entities;
     
     public static int GAME_WIDTH = 512;
     public static int GAME_HEIGHT = GAME_WIDTH * 3 / 4;
@@ -69,6 +75,10 @@ public class MainComponent extends Canvas implements Runnable {
     public void run() {
         //screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
         screen = new Screen(getWidth(), getHeight());
+        
+        player = new Player(keys);
+        entities = new ArrayList<>();
+        
         while (running) {
             // Do it
             
@@ -77,6 +87,8 @@ public class MainComponent extends Canvas implements Runnable {
                 createBufferStrategy(3);
                 continue;
             }
+            
+            tick();
             
             Graphics g = bs.getDrawGraphics();
             render(g);            
@@ -92,22 +104,9 @@ public class MainComponent extends Canvas implements Runnable {
                 bs.show();
             }
             
-            int move = -1;
-            if (keys.keys[KeyEvent.VK_UP].pressed) {
-                // Move up
-                System.out.println("Up");
-            }
-            if (keys.keys[KeyEvent.VK_RIGHT].pressed) {
-                // Move Right
-                System.out.println("Right");
-            }
-            if (keys.keys[KeyEvent.VK_LEFT].pressed) {
-                // Move Left
-                System.out.println("Left");
-            }
-            if (keys.keys[KeyEvent.VK_DOWN].pressed) {
-                // Move Down
-                System.out.println("Down");
+            if (keys.keys[KeyEvent.VK_ESCAPE].pressed) {
+                // Pause?
+                System.out.println("Escape");
             }
         }
     }
@@ -119,5 +118,12 @@ public class MainComponent extends Canvas implements Runnable {
         // TODO: Draw Map.
         
         g.drawImage(screen.image, 0, 0, null);
+    }
+    
+    public void tick() {
+        player.Tick();
+        
+        for(Entity e : entities)
+            e.Tick();
     }
 }

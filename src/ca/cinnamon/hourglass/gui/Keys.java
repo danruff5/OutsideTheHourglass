@@ -23,6 +23,8 @@ public class Keys implements KeyListener {
         keys[KeyEvent.VK_DOWN] = new Key();
         keys[KeyEvent.VK_LEFT] = new Key();
         keys[KeyEvent.VK_RIGHT] = new Key();
+        
+        keys[KeyEvent.VK_ESCAPE] = new Key();
     }
 
     @Override
@@ -32,20 +34,26 @@ public class Keys implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
-            case KeyEvent.VK_UP: keys[e.getKeyCode()].pressed = true; break;
-            case KeyEvent.VK_DOWN: keys[e.getKeyCode()].pressed = true; break;
-            case KeyEvent.VK_LEFT: keys[e.getKeyCode()].pressed = true; break;
-            case KeyEvent.VK_RIGHT: keys[e.getKeyCode()].pressed = true; break;
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_ESCAPE: 
+                keys[e.getKeyCode()].pressed = true; 
+                break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         switch(e.getKeyCode()) {
-            case KeyEvent.VK_UP: keys[e.getKeyCode()].pressed = false; break;
-            case KeyEvent.VK_DOWN: keys[e.getKeyCode()].pressed = false; break;
-            case KeyEvent.VK_LEFT: keys[e.getKeyCode()].pressed = false; break;
-            case KeyEvent.VK_RIGHT: keys[e.getKeyCode()].pressed = false; break;
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_ESCAPE: 
+                keys[e.getKeyCode()].pressed = false; 
+                break;
         }
     }
     
