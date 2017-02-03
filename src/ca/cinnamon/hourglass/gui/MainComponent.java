@@ -7,6 +7,10 @@ package ca.cinnamon.hourglass.gui;
 
 import ca.cinnamon.hourglass.entity.Entity;
 import ca.cinnamon.hourglass.entity.Player;
+import ca.cinnamon.hourglass.map.Map;
+import ca.cinnamon.hourglass.map.tile.Tile;
+import ca.cinnamon.hourglass.screen.Bitmap;
+import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -15,7 +19,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -34,12 +42,14 @@ public class MainComponent extends Canvas implements Runnable {
     public static int GAME_WIDTH = 512;
     public static int GAME_HEIGHT = GAME_WIDTH * 3 / 4;
     
+    public Map currentMap;
     public MainComponent() {
         this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setMinimumSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setMaximumSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         
-        // TODO: init map.
+        int mapx=8;
+        currentMap=new Map(mapx,mapx);
         
         keys = new Keys();
         this.addKeyListener(keys);
@@ -115,7 +125,7 @@ public class MainComponent extends Canvas implements Runnable {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
         
-        // TODO: Draw Map.
+        currentMap.draw(screen);
         
         g.drawImage(screen.image, 0, 0, null);
     }

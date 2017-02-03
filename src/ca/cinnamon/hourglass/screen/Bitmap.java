@@ -5,6 +5,7 @@
  */
 package ca.cinnamon.hourglass.screen;
 
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
 /**
@@ -15,6 +16,19 @@ public class Bitmap {
     public int w, h;
     public int[] pixels;
     
+    /**
+     * @author Cody
+     * @purpose created to easily convert buffered images to this data structure
+     */
+    public static Bitmap convert(BufferedImage img,int width, int height){
+		Bitmap ret=new Bitmap(img.getWidth(), img.getHeight());
+		for (int i=0;i<width;++i){
+			for (int j=0;j<height;++j){
+				ret.pixels[i* ret.w +j]=img.getRGB(i, j);
+			}
+		}
+		return ret;
+	}
     public Bitmap(int w, int h) {
         this.w = w;
         this.h = h;
@@ -28,6 +42,18 @@ public class Bitmap {
     public void blit(Bitmap bitmap, int x, int y) {
         int maxX = (x + bitmap.w > w)? w - x : bitmap.w;
         int maxY = (y + bitmap.h > h)? h - y : bitmap.h;
+        int minX = (x < 0)? Math.abs(x): 0;
+        int minY = (y < 0)? Math.abs(y): 0;
+        
+        for (int xp = minX; xp < maxX; ++xp) {
+            for (int yp = minY; yp < maxY; ++yp) {
+                pixels[(y + yp) * this.w + (x + xp)] = bitmap.pixels[yp * bitmap.w + xp];
+            }
+        }
+    }
+    public void blit(Bitmap bitmap, int x, int y,int width,int height) {
+        int maxX = (x + width > w)? w - x : width;
+        int maxY = (y + height > h)? h - y : height;
         int minX = (x < 0)? Math.abs(x): 0;
         int minY = (y < 0)? Math.abs(y): 0;
         
