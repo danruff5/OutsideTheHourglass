@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class Bitmap {
     public int w, h;
     public int[] pixels;
-    
+    public final int ALPHACOLOR=-65281;
     /**
      * @author Cody
      * @purpose created to easily convert buffered images to this data structure
@@ -24,7 +24,7 @@ public class Bitmap {
 		Bitmap ret=new Bitmap(img.getWidth(), img.getHeight());
 		for (int i=0;i<width;++i){
 			for (int j=0;j<height;++j){
-				ret.pixels[i* ret.w +j]=img.getRGB(i, j);
+				ret.pixels[j* ret.w +i]=img.getRGB(i, j);
 			}
 		}
 		return ret;
@@ -59,7 +59,8 @@ public class Bitmap {
         
         for (int xp = minX; xp < maxX; ++xp) {
             for (int yp = minY; yp < maxY; ++yp) {
-                pixels[(y + yp) * this.w + (x + xp)] = bitmap.pixels[yp * bitmap.w + xp];
+            	if ( bitmap.pixels[yp * bitmap.w + xp]!=ALPHACOLOR)
+            		pixels[(y + yp) * this.w + (x + xp)] = bitmap.pixels[yp * bitmap.w + xp];
             }
         }
     }

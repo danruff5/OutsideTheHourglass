@@ -5,10 +5,10 @@
  */
 package ca.cinnamon.hourglass.gui;
 
-import ca.cinnamon.hourglass.entity.Entity;
-import ca.cinnamon.hourglass.entity.Player;
+import ca.cinnamon.hourglass.entity.*;
+import ca.cinnamon.hourglass.entity.mob.*;
 import ca.cinnamon.hourglass.map.Map;
-import ca.cinnamon.hourglass.map.tile.Tile;
+import ca.cinnamon.hourglass.map.tile.*;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
@@ -87,8 +87,10 @@ public class MainComponent extends Canvas implements Runnable {
         screen = new Screen(getWidth(), getHeight());
         
         player = new Player(keys);
+        player.currentMap=currentMap;
         entities = new ArrayList<>();
-        
+        entities.add(player);
+        entities.add(new Slime());
         while (running) {
             // Do it
             
@@ -126,7 +128,9 @@ public class MainComponent extends Canvas implements Runnable {
         g.fillRect(0, 0, getWidth(), getHeight());
         
         currentMap.draw(screen);
-        
+        for(int i=0;i<entities.size();++i){
+        	entities.get(i).Draw(screen);
+        }
         g.drawImage(screen.image, 0, 0, null);
     }
     
@@ -135,5 +139,15 @@ public class MainComponent extends Canvas implements Runnable {
         
         for(Entity e : entities)
             e.Tick();
+        for (int i=0;i<entities.size();++i){
+        	for (int j=0;j<entities.size();++j){
+            	if (i!=j&&entities.get(i).getLocation().equals(entities.get(j).getLocation())){
+            		if (entities.get(i).Attack(entities.get(j))<1){
+            			entities.remove(j);
+            		}
+            		
+            	}
+            }
+        }
     }
 }

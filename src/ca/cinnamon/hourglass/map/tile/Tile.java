@@ -12,7 +12,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import ca.cinnamon.hourglass.entity.Entity;
+import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.screen.Bitmap;
+import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
 
 /**
@@ -22,16 +24,17 @@ import ca.cinnamon.hourglass.screen.Screen;
  * @purpose A tile is a square on a map grid that includes an image and whether it is solid to movement;
  * @version 1
  */
-public class Tile {
+public abstract class Tile {
     // This is a specific tile in the map.
+    protected static BitmapManager imgs=new BitmapManager();
 
     // The tiles heght and width -> always the same for every tile.
-    public static final int HEIGHT = 50;
-    public static final int WIDTH = 50;
-    public int X_OFFSET = 0;
-    public int Y_OFFSET = 0;
-    public Bitmap img;
-    public boolean isSolid=false;
+    protected static final int HEIGHT=Map.tileHeight ;
+    protected static final int WIDTH=Map.tileWidth;
+    protected int X_OFFSET = 0;
+    protected int Y_OFFSET = 0;
+    protected Bitmap img;
+    protected boolean isSolid;
     // The position of the tile.
     protected int x;
     protected int y;
@@ -44,11 +47,6 @@ public class Tile {
         img=null;
     }
     
-    public Tile(Bitmap bmp,int x, int y) {
-        this.x = x;
-        this.y = y;
-        img=bmp;
-    }
     /*public Tile(String src,int x, int y) {
         this.x = x;
         this.y = y;

@@ -5,19 +5,53 @@
  */
 package ca.cinnamon.hourglass.entity.mob;
 
+import java.awt.Point;
+
 import ca.cinnamon.hourglass.entity.Entity;
+import ca.cinnamon.hourglass.map.Map;
+import ca.cinnamon.hourglass.map.tile.Tile;
 import ca.cinnamon.hourglass.screen.Screen;
 
 /**
  *
  * @author Daniel
  */
-public abstract class Mob extends Entity {
-    
+public abstract class Mob implements Entity {
+	public int HP=1;
+	public int ATK=1;
+	public Point loc=new Point(0,0);
+	public Map currentMap;
     public Mob() {
         super();
     }
     
     public void Tick() {}
     public void Draw(Screen screen) {}
+    public void moveUp(Tile T){
+    	if (!T.collide(this))
+    	this.loc.y-=1;
+    }
+    public void moveDown(Tile T){
+    	if (!T.collide(this))
+    	this.loc.y+=1;
+    }
+    public void moveRight(Tile T){
+    	if (!T.collide(this))
+    	this.loc.x+=1;
+    }
+    public void moveLeft(Tile T){
+    	if (!T.collide(this))
+    	this.loc.x-=1;
+    }
+    public int Attack(Entity E){
+    	return E.Hurt(ATK);
+    }
+    public int Hurt(int DAM){
+    	HP-=DAM;
+    	return HP;
+    }
+    public Point getLocation(){
+    	return loc;
+    }
+    
 }
