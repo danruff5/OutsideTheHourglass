@@ -12,7 +12,7 @@ import java.util.Arrays;
  *
  * @author daniel
  */
-public class Bitmap {
+public class Bitmap implements java.io.Serializable{
     public int w, h;
     public int[] pixels;
     public final int ALPHACOLOR=-65281;

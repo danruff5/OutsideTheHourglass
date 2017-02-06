@@ -48,9 +48,11 @@ public class MainComponent extends Canvas implements Runnable {
         this.setMinimumSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setMaximumSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         
-        int mapx=8;
+        int mapx=6;
         currentMap=new Map(mapx,mapx);
-        
+        //currentMap.testMap(mapx,mapx);
+        currentMap=Map.load();
+
         keys = new Keys();
         this.addKeyListener(keys);
     }
@@ -85,12 +87,18 @@ public class MainComponent extends Canvas implements Runnable {
     public void run() {
         //screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
         screen = new Screen(getWidth(), getHeight());
+
         
         player = new Player(keys);
         player.currentMap=currentMap;
+        
         entities = new ArrayList<>();
         entities.add(player);
-        entities.add(new Slime());
+        Slime slm=new Slime(1,1);
+        slm.currentMap=currentMap;
+        entities.add(slm);
+        ;
+        //currentMap.save();
         while (running) {
             // Do it
             
@@ -145,7 +153,6 @@ public class MainComponent extends Canvas implements Runnable {
             		if (entities.get(i).Attack(entities.get(j))<1){
             			entities.remove(j);
             		}
-            		
             	}
             }
         }

@@ -24,7 +24,7 @@ import ca.cinnamon.hourglass.screen.Screen;
  * @purpose A tile is a square on a map grid that includes an image and whether it is solid to movement;
  * @version 1
  */
-public abstract class Tile {
+public abstract class Tile implements java.io.Serializable{
     // This is a specific tile in the map.
     protected static BitmapManager imgs=new BitmapManager();
 
@@ -41,7 +41,7 @@ public abstract class Tile {
     
     
     
-    public Tile(int x, int y) {
+    public Tile(int x, int y)  {
         this.x = x;
         this.y = y;
         img=null;

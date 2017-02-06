@@ -6,6 +6,11 @@
 package ca.cinnamon.hourglass.map;
 
 import java.awt.Point;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import ca.cinnamon.hourglass.map.tile.*;
 import ca.cinnamon.hourglass.screen.BitmapManager;
@@ -19,7 +24,7 @@ import ca.cinnamon.hourglass.screen.Screen;
 * and provides facilities for saving, loading, and rendering itself
 * TODO: Write load and save functions
 */
-public class Map {
+public class Map implements java.io.Serializable{
     // This is the entire map of tiles.
     public Tile[][] tiles;
     public static final int tileWidth = 50;
@@ -32,10 +37,10 @@ public class Map {
     	this.tiles=new Tile[width][height];
     	this.height=height;
     	this.width=width;
-    	testMap(width,height);
-    	
+    	//testMap(width,height);
+    	    	
     }
-    private void testMap(int width,int height){
+    public void testMap(int width,int height){
         for (int i=0;i<width;++i){
         	for (int j=0;j<height;++j){	
         		this.add(new FloorTile(50*i,50*j));
@@ -67,7 +72,37 @@ public class Map {
     public Tile get(Point p){
     	return tiles[p.x][p.y];
     }
-  
+    public void save(){
+    	try {
+            FileOutputStream fileOut =
+            new FileOutputStream("./map.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in /tmp/employee.ser");
+         }catch(IOException i) {
+            i.printStackTrace();
+         }
+    }
+    public static Map load(){
+    	Map m;
+    	try {
+            FileInputStream fileIn = new FileInputStream("./map.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            m = (Map) in.readObject();
+            in.close();
+            fileIn.close();
+         }catch(IOException i) {
+            i.printStackTrace();
+            return null;
+         }catch(ClassNotFoundException c) {
+            System.out.println("Employee class not found");
+            c.printStackTrace();
+            return null;
+         }
+    	return m;
+    }
     /*public void calculateOffsets(){
     	for (int i = 0; i <width; ++i) {
         	for (int j=0;j<height;++j){
@@ -79,7 +114,7 @@ public class Map {
     public void draw(Screen screen) {       
         screen.fill(0);
         for (int i = 0; i < width; ++i) {
-        	for (int j=0;j<height;++j){
+        	for (int j=0;j < height;++j){
         		tiles[i][j].draw(screen);
         	}
         }

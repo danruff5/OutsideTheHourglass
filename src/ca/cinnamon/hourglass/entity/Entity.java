@@ -7,6 +7,7 @@ package ca.cinnamon.hourglass.entity;
 
 import java.awt.Point;
 
+import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
 
@@ -18,6 +19,7 @@ public interface Entity {
     public void Tick();
     public void Draw(Screen screen);
     public static BitmapManager sprites=new BitmapManager();
+    public Map currentMap=null;
     public int Hurt(int DAM);
     public Point getLocation();
     public int Attack(Entity E);
