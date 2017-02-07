@@ -15,8 +15,10 @@ import java.awt.event.KeyListener;
 public class Keys implements KeyListener {
     
     public Key[] keys;
+    private MainComponent main;
     
-    public Keys() {
+    public Keys(MainComponent main) {
+        this.main = main;
         keys = new Key[100];
         
         keys[KeyEvent.VK_UP] = new Key();
@@ -42,6 +44,7 @@ public class Keys implements KeyListener {
                 keys[e.getKeyCode()].pressed = true; 
                 break;
         }
+        main.tick();
     }
 
     @Override

@@ -112,7 +112,7 @@ public class Map implements java.io.Serializable{
         }
     }*/
     public void draw(Screen screen) {       
-        screen.fill(0);
+        //screen.fill(0);
         for (int i = 0; i < width; ++i) {
         	for (int j=0;j < height;++j){
         		tiles[i][j].draw(screen);
