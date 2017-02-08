@@ -12,9 +12,8 @@ public class Slime extends Mob {
     //public int ticksSinceLastAction = 0;
     public static Random rnd = new Random();
 
-    public Slime(int x, int y) {
-        super();
-        this.loc = new Point(x, y);
+    public Slime(Point spawn) {
+        super(spawn);
         this.HP = 2;//health points
     }
 
@@ -52,7 +51,7 @@ public class Slime extends Mob {
 
     @Override //okay test boop
     public void Draw(Screen screen) {
-        screen.blit(sprites.add("./Pictures/slime.bmp"), this.loc.x * Map.tileWidth, (this.loc.y) * Map.tileWidth, 50, 50);
+        screen.blit(sprites.add("./Pictures/slime.bmp"), this.loc.x * Map.tileWidth, (this.loc.y) * Map.tileWidth, 32, 32);
 
     }
 

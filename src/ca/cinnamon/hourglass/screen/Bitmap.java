@@ -12,7 +12,7 @@ import java.util.Arrays;
  *
  * @author daniel
  */
-public class Bitmap implements java.io.Serializable{
+public class Bitmap{
     public int w, h;
     public int[] pixels;
     public final int ALPHACOLOR=-65281;
@@ -64,7 +64,19 @@ public class Bitmap implements java.io.Serializable{
             }
         }
     }
-    
+    public void blit(Bitmap bitmap, int x, int y,int width,int height,int xoffset,int yoffset) {
+        int maxX = (x + width > w)? w - x : width;
+        int maxY = (y + height > h)? h - y : height;
+        int minX = (x < 0)? Math.abs(x): 0;
+        int minY = (y < 0)? Math.abs(y): 0;
+        
+        for (int xp = minX; xp < maxX; ++xp) {
+            for (int yp = minY; yp < maxY; ++yp) {
+            	if ( bitmap.pixels[yp * bitmap.w + xp]!=ALPHACOLOR)
+            		pixels[(y + yp) * this.w + (x + xp)] = bitmap.pixels[(yp+yoffset) * bitmap.w + (xp+xoffset)];
+            }
+        }
+    }
     public void colourFill(int colour, int x, int y, int w, int h) {
         for (int xp = x;  xp < x + w; ++xp) {
             for (int yp = y; yp < y + h; ++yp) {

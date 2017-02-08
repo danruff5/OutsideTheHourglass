@@ -17,10 +17,14 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -32,35 +36,38 @@ import javax.swing.JPanel;
  * @author daniel
  */
 public class MainComponent extends Canvas implements Runnable {
-
     public boolean running;
     private Screen screen;
     public Keys keys;
-
+    
     public Player player;
     public ArrayList<Entity> entities;
-
-    public static int GAME_WIDTH = 20 * 50;
-    public static int GAME_HEIGHT = 20 * 50;
-
+    
+    public static int GAME_WIDTH = 1024+512;
+    public static int GAME_HEIGHT = GAME_WIDTH * 9 / 16;
+    
     private int framesSinceLastTick = 0;
 
     public Map currentMap;
-
     public MainComponent() {
         this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setMinimumSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setMaximumSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
-
-        int mapx = 20;
-        currentMap = new Map(mapx, mapx);
-        currentMap.testMap(mapx, mapx);
+        
+        int mapx=45;
+        int mapy=mapx*9/16;
+        currentMap=new Map(mapx,mapy);
+        Map.currentMap=currentMap;
+        currentMap.testCave(4);
+        
+        
         //currentMap=Map.load();
+        //currentMap.save();
 
         keys = new Keys(this);
         this.addKeyListener(keys);
     }
-
+    
     public static void main(String[] args) {
         MainComponent mc = new MainComponent();
         JFrame frame = new JFrame();
@@ -75,14 +82,14 @@ public class MainComponent extends Canvas implements Runnable {
         frame.addKeyListener(mc.keys);
         mc.start();
     }
-
+    
     public void start() {
         running = true;
         Thread thread = new Thread(this);
         thread.setPriority(Thread.MAX_PRIORITY);
         thread.start();
     }
-
+    
     public void stop() {
         running = false;
     }
@@ -92,20 +99,21 @@ public class MainComponent extends Canvas implements Runnable {
         //screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
         screen = new Screen(getWidth(), getHeight());
 
-        player = new Player(keys);
-        player.currentMap = currentMap;
-
+        
+        player = new Player(keys,currentMap.GetRandomFloorTile());
+        player.currentMap=currentMap;
+        
         entities = new ArrayList<>();
         entities.add(player);
+        Slime slm=new Slime(currentMap.GetRandomFloorTile());
         
-        for (int i = 1; i < 19; i++) {
-            for (int j = 1; j < 19; j++) {
-                Slime slm = new Slime(i, j);
-                slm.currentMap = currentMap;
-                entities.add(slm);
-            }
+        entities.add(slm);
+        for (int i=0;i<10;++i){
+        	entities.add(new Slime(currentMap.GetRandomFloorTile()));
         }
-
+        long timeSinceStart = System.nanoTime() / 1000;
+        long oldTimeSinceStart = 0;
+        long deltaTime = 1;
         //currentMap.save();
         while (running) {
             // Do it
@@ -139,25 +147,21 @@ public class MainComponent extends Canvas implements Runnable {
             }
         }
     }
-
+    
     public void render(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, getWidth(), getHeight());
+    	//Graphics2D g2=(Graphics2D)g;
+        //g.setColor(Color.WHITE);
+        //g.fillRect(0, 0, getWidth(), getHeight());
         
-        // TODO: Implement a Menu system.
-              // tick()
-              // keys
-              // render()
-
         currentMap.draw(screen);
-        for (int i = 0; i < entities.size(); ++i) {
-            entities.get(i).Draw(screen);
+        for(int i=0;i<entities.size();++i){
+        	entities.get(i).Draw(screen);
         }
         g.drawImage(screen.image, 0, 0, null);
     }
-
+    
     public void tick() {
-        //player.Tick();
+    	 //player.Tick();
         if (framesSinceLastTick > 10) {
             framesSinceLastTick = 0;
 

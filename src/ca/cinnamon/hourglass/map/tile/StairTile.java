@@ -6,7 +6,9 @@ public class StairTile extends Tile {
 
 	public StairTile(int x, int y) {
 		super(x, y);
-		img=imgs.add("./Pictures/stair.bmp");
+		X_OFFSET=WIDTH*5;
+		Y_OFFSET=HEIGHT*4;
+		img="./Pictures/sheet32x.png";
         this.isSolid=false;
 	}
 	

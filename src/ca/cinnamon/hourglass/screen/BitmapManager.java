@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 * @purpose to provide a tool to share the custom bitmap objects between entities that use the same file
 * (e.g. so the program has 1 bmp for a floor tile instead of 100 file reads)
 */
-public class BitmapManager implements java.io.Serializable {
+public class BitmapManager{
 	java.util.HashMap<String, Bitmap> dict= new java.util.HashMap<String, Bitmap>();
 	
 	public Bitmap add(String key){

@@ -21,27 +21,37 @@ public abstract class Mob implements Entity {
 	public int ATK=1;
 	public Point loc=new Point(0,0);
 	public Map currentMap;
-    public Mob() {
+    public Mob(Point spawn) {
         super();
+        loc=spawn;
+        currentMap=Map.currentMap;
     }
     
     public void Tick() {}
     public void Draw(Screen screen) {}
     public void moveUp(Tile T){
-    	if (!T.collide(this))
-    	this.loc.y-=1;
+    	if (!T.collide(this)){
+    		currentMap.changedTile.add(new Point(this.loc));
+    		this.loc.y-=1;
+    	}
     }
     public void moveDown(Tile T){
-    	if (!T.collide(this))
-    	this.loc.y+=1;
+    	if (!T.collide(this)){
+    		currentMap.changedTile.add(new Point(this.loc));
+    		this.loc.y+=1;
+    	}
     }
     public void moveRight(Tile T){
-    	if (!T.collide(this))
-    	this.loc.x+=1;
+    	if (!T.collide(this)){
+    		currentMap.changedTile.add(new Point(this.loc));
+    		this.loc.x+=1;
+    	}
     }
     public void moveLeft(Tile T){
-    	if (!T.collide(this))
-    	this.loc.x-=1;
+    	if (!T.collide(this)){
+    		currentMap.changedTile.add(new Point(this.loc));
+    		this.loc.x-=1;
+    	}
     }
     public int Attack(Entity E){
     	return E.Hurt(ATK);

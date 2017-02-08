@@ -8,6 +8,7 @@ package ca.cinnamon.hourglass.map.tile;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -26,19 +27,19 @@ import ca.cinnamon.hourglass.screen.Screen;
  */
 public abstract class Tile implements java.io.Serializable{
     // This is a specific tile in the map.
-    protected static BitmapManager imgs=new BitmapManager();
-
+    protected transient static BitmapManager imgs=new BitmapManager();
+    
     // The tiles heght and width -> always the same for every tile.
     protected static final int HEIGHT=Map.tileHeight ;
     protected static final int WIDTH=Map.tileWidth;
     protected int X_OFFSET = 0;
     protected int Y_OFFSET = 0;
-    protected Bitmap img;
+    protected String img;
     protected boolean isSolid;
     // The position of the tile.
     protected int x;
     protected int y;
-    
+    protected Random rnd=new Random();
     
     
     public Tile(int x, int y)  {
@@ -58,9 +59,9 @@ public abstract class Tile implements java.io.Serializable{
 		}
     }*/
     
-    public void draw(Screen screen) 
+    public void draw(Bitmap fullBMP) 
     {
-    	screen.blit(img, x, y,WIDTH,HEIGHT);
+    	fullBMP.blit(imgs.add(img), x, y,WIDTH,HEIGHT,X_OFFSET,Y_OFFSET);
     }
     public boolean collide(Entity E) { return isSolid; }
 }

@@ -22,9 +22,9 @@ public class Player extends Mob {
     private Keys keys;
     
     public int speedLimit=150;
-    public Player(Keys keys) {
-        super();
-        this.loc=new Point(2,2);
+    public Player(Keys keys,Point spawn) {
+        super(spawn);
+
         this.keys = keys;
         this.ATK=2;
     }
@@ -49,7 +49,7 @@ public class Player extends Mob {
     }
     @Override
     public void Draw(Screen screen) {
-    	screen.blit(sprites.add("./Pictures/goblin.bmp"), this.loc.x*Map.tileWidth, (this.loc.y-1)*Map.tileWidth,50,100);
+    	screen.blit(sprites.add("./Pictures/wizzard.bmp"), this.loc.x*Map.tileWidth, (this.loc.y-0)*Map.tileWidth,Map.tileWidth,Map.tileHeight);
     	
     }
 }
