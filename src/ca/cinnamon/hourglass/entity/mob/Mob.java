@@ -34,24 +34,40 @@ public abstract class Mob implements Entity {
     		currentMap.changedTile.add(new Point(this.loc));
     		this.loc.y-=1;
     	}
+	else
+	{
+		SoundPlayer.WALL.play();
+	}
     }
     public void moveDown(Tile T){
     	if (!T.collide(this)){
     		currentMap.changedTile.add(new Point(this.loc));
     		this.loc.y+=1;
     	}
+	else
+	{
+		SoundPlayer.WALL.play();
+	}
     }
     public void moveRight(Tile T){
     	if (!T.collide(this)){
     		currentMap.changedTile.add(new Point(this.loc));
     		this.loc.x+=1;
     	}
+	else
+	{
+		SoundPlayer.WALL.play();
+	}
     }
     public void moveLeft(Tile T){
     	if (!T.collide(this)){
     		currentMap.changedTile.add(new Point(this.loc));
     		this.loc.x-=1;
     	}
+	else
+	{
+		SoundPlayer.WALL.play();
+	}
     }
     public int Attack(Entity E){
 	SoundPlayer.SWORD.play();
