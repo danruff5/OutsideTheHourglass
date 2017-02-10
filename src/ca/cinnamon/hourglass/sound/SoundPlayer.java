@@ -1,5 +1,6 @@
 package ca.cinnamon.hourglass.sound;
 
+import java.io.File;
 import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -13,9 +14,9 @@ import javax.sound.sampled.Clip;
  */
 
 public enum SoundPlayer {
-			STEP("../Sounds/stepstone_1.wav"),
-			SWORD("../Sounds/sword sound.wav"),
-			WALL("../Sounds/metal.wav");
+			STEP("./Sounds/stepstone_1.wav"),
+			SWORD("./Sounds/sword sound.wav"),
+			WALL("./Sounds/metal.wav");
 
     public static enum Volume {
         MUTE, LOW, MEDIUM, HIGH;
