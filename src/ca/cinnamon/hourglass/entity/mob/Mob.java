@@ -11,6 +11,7 @@ import ca.cinnamon.hourglass.entity.Entity;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.Tile;
 import ca.cinnamon.hourglass.screen.Screen;
+import ca.cinnamon.hourglass.sound.SoundPlayer;
 
 /**
  *
