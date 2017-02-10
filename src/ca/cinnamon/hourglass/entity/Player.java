@@ -32,18 +32,22 @@ public class Player extends Mob {
     public void Tick() {
         if (keys.keys[KeyEvent.VK_UP].pressed) {
             // Player Move Up.
+            SoundPlayer.STEP.play();
             this.moveUp(currentMap.tiles[loc.x][loc.y-1]);
         }
         if (keys.keys[KeyEvent.VK_RIGHT].pressed) {
             // Player Move Right.
+            SoundPlayer.STEP.play();
             this.moveRight(currentMap.tiles[loc.x+1][loc.y]);
         }
         if (keys.keys[KeyEvent.VK_DOWN].pressed) {
             // Player Move Down.
+            SoundPlayer.STEP.play();
             this.moveDown(currentMap.tiles[loc.x][loc.y+1]);
         }
         if (keys.keys[KeyEvent.VK_LEFT].pressed) {
             // Player Move Left.
+            SoundPlayer.STEP.play();
             this.moveLeft(currentMap.tiles[loc.x-1][loc.y]);
         }
     }
