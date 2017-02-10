@@ -84,6 +84,7 @@ public class MainComponent extends Canvas implements Runnable {
     }
     
     public void start() {
+        SoundPlayer.init();
         running = true;
         Thread thread = new Thread(this);
         thread.setPriority(Thread.MAX_PRIORITY);
