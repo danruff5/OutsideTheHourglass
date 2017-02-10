@@ -9,6 +9,7 @@ import ca.cinnamon.hourglass.entity.mob.Mob;
 import ca.cinnamon.hourglass.gui.Keys;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.screen.Screen;
+import ca.cinnamon.hourglass.sound.SoundPlayer;
 
 import java.awt.Point;
 
