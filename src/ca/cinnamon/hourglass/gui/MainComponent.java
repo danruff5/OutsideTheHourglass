@@ -12,6 +12,7 @@ import ca.cinnamon.hourglass.map.tile.*;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
+import ca.cinnamon.hourglass.sound.SoundPlayer;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
