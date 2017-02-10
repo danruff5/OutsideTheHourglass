@@ -54,6 +54,7 @@ public abstract class Mob implements Entity {
     	}
     }
     public int Attack(Entity E){
+	SoundPlayer.SWORD.play();
     	return E.Hurt(ATK);
     }
     public int Hurt(int DAM){
