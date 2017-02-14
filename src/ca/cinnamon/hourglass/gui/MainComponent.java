@@ -9,12 +9,15 @@ import ca.cinnamon.hourglass.entity.*;
 import ca.cinnamon.hourglass.entity.mob.*;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.*;
+import ca.cinnamon.hourglass.menu.Menu;
+import ca.cinnamon.hourglass.menu.Menu.STATE;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
 import ca.cinnamon.hourglass.sound.SoundPlayer;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -36,7 +39,11 @@ import javax.swing.JPanel;
  *
  * @author daniel
  */
+
+
+
 public class MainComponent extends Canvas implements Runnable {
+	
     public boolean running;
     private Screen screen;
     public Keys keys;
@@ -44,10 +51,15 @@ public class MainComponent extends Canvas implements Runnable {
     public Player player;
     public ArrayList<Entity> entities;
     
-    public static int GAME_WIDTH = 1024+512;
-    public static int GAME_HEIGHT = GAME_WIDTH * 9 / 16;
+    public static int GAME_WIDTH = 1024 + 422;
+    public static int GAME_HEIGHT = 829; //GAME_WIDTH * 9 / 16;
     
     private int framesSinceLastTick = 0;
+    
+    //Game and Menu frame
+    private static JFrame GAME;
+    private static Menu MENU;
+    
 
     public Map currentMap;
     public MainComponent() {
@@ -71,16 +83,29 @@ public class MainComponent extends Canvas implements Runnable {
     
     public static void main(String[] args) {
         MainComponent mc = new MainComponent();
-        JFrame frame = new JFrame();
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(mc);
-        frame.setContentPane(panel);
-        frame.pack();
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.addKeyListener(mc.keys);
+
+         GAME = new JFrame();
+         GAME.setContentPane(panel);
+        //frame.setContentPane(panel);
+         GAME.setSize(GAME_WIDTH,GAME_HEIGHT);
+         GAME.setResizable(false);
+         GAME.setLocationRelativeTo(null);
+         GAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         GAME.setVisible(false);
+         GAME.addKeyListener(mc.keys);
+        
+
+        MENU = new Menu();
+        //frame.setContentPane(panel);
+        MENU.setVisible(true);
+        while(MENU.GetCurrentGameState() != STATE.Game)
+        {
+        	GAME.setVisible(false);//shitty way of doing it but hey its easy
+        }
+        GAME.setVisible(true);
+        MENU.setVisible(false);
         mc.start();
     }
     
@@ -119,7 +144,6 @@ public class MainComponent extends Canvas implements Runnable {
         //currentMap.save();
         while (running) {
             // Do it
-
             BufferStrategy bs = getBufferStrategy();
             if (bs == null) {
                 createBufferStrategy(3);
@@ -146,6 +170,7 @@ public class MainComponent extends Canvas implements Runnable {
             if (keys.keys[KeyEvent.VK_ESCAPE].pressed) {
                 // Pause?
                 System.out.println("Escape");
+            	
             }
         }
     }
