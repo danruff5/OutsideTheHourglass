@@ -1,0 +1,54 @@
+
+*How to play*
+
+Welcome! This is an adventure game that you can play around. You have to fight against the obstacle. You can call your past self to make it more interesting! e.g) 5 moves past you and it will do what it did.
+
+
+*Graphical Description*
+
+-in the menu bar, you can start, restart, exit
+
+-you can always see you score on the top
+
+-if you hit '{?}', you can see a dialog showing your current info. e.g)inventory
+
+
+*Step*
+
+1. Enter Level
+
+2. Step through the floor until you meet enemy
+
+3. Defeat it and loot it. Be AGGRESSIVE!!
+
+4. Explore until you find exit
+
+5. Next Level
+
+
+*to move*
+
+-use arrow keys to move
+
+
+*to call past myself*
+
+-{?} key
+
+
+*to fight*
+
+-{?} key
+
+
+*to loot*
+
+-{?} key
+
+
+*how you can score*
+
+-treasure 10 points 
+
+-loot  value 20 points
+
