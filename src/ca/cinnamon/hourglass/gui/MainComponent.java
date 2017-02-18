@@ -201,8 +201,10 @@ public class MainComponent extends Canvas implements Runnable {
         if (framesSinceLastTick > 10) {
             framesSinceLastTick = 0;
 
+            player.Tick();
             for (Entity e : entities) {
-                e.Tick();
+            	if (e!=player)
+            		e.Tick();
             }
             
             // TODO: This loop needs to be redone becasue of removing the entities...

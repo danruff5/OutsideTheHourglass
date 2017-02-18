@@ -49,7 +49,7 @@ public class Wolf extends Mob {
 
     @Override //okay test boop
     public void Draw(Screen screen) {
-        screen.blit(sprites.add("./Pictures/crawl-tiles Oct-5-2010/dc-mon/animals/warg.bmp"), this.loc.x * Map.tileWidth, (this.loc.y) * Map.tileWidth, 32, 32);
+        screen.blit(sprites.add("./Pictures/crawl-tiles Oct-5-2010/dc-mon/animals/warg.png"), this.loc.x * Map.tileWidth, (this.loc.y) * Map.tileWidth, 32, 32);
 
     }
 
