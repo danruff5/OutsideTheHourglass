@@ -105,6 +105,7 @@ public class MainComponent extends Canvas implements Runnable {
         	GAME.setVisible(false);//shitty way of doing it but hey its easy
         }
         GAME.setVisible(true);
+        Map.currentMap.reDraw();
         MENU.setVisible(false);
         mc.start();
     }
@@ -138,9 +139,17 @@ public class MainComponent extends Canvas implements Runnable {
         for (int i=0;i<10;++i){
         	entities.add(new Slime(currentMap.GetRandomFloorTile()));
         }
+        entities.add(new Wolf(currentMap.GetRandomFloorTile()));
+        
         long timeSinceStart = System.nanoTime() / 1000;
         long oldTimeSinceStart = 0;
         long deltaTime = 1;
+        currentMap.draw(screen);
+        for(int i=0;i<entities.size();++i){
+        	entities.get(i).Draw(screen);
+        }
+       
+        
         //currentMap.save();
         while (running) {
             // Do it

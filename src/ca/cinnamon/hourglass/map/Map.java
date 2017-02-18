@@ -209,7 +209,9 @@ public class Map implements java.io.Serializable{
          }
     	return m;
     }
-    
+    public void reDraw(){
+    	fullBMP=null;
+    }
     public void draw(Screen screen) {
     	if (fullBMP==null){
     		fullBMP=new Bitmap(screen.w,screen.h);
