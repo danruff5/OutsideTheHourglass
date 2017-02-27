@@ -14,7 +14,7 @@ import ca.cinnamon.hourglass.menu.Menu.STATE;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
-import ca.cinnamon.hourglass.sound.SoundPlayer;
+import ca.cinnamon.hourglass.sound.*;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.CardLayout;
@@ -111,6 +111,7 @@ public class MainComponent extends Canvas implements Runnable {
     
     public void start() {
         SoundPlayer.init();
+        MusicPlayer.dungeonTrack.loop();
         running = true;
         Thread thread = new Thread(this);
         thread.setPriority(Thread.MAX_PRIORITY);
