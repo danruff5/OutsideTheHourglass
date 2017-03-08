@@ -200,6 +200,7 @@ public class MainComponent extends Canvas implements Runnable {
     
     public void tick() {
     	 //player.Tick();
+    	//player.Hurt(1);
         if (framesSinceLastTick > 10) {
             framesSinceLastTick = 0;
 
