@@ -5,6 +5,7 @@ import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 /**
  *
  * @author Brendan Fishback
@@ -48,6 +49,15 @@ public enum SoundPlayer {
         if (volume != Volume.MUTE && !clip.isRunning()) {
             // Set the clip to the start and play the clip.
             clip.setFramePosition(0);
+            //volume control
+          	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            if (volume == Volume.LOW)
+            	gainControl.setValue(-10.0f);
+            else if (volume == Volume.MEDIUM)
+            	gainControl.setValue(-5.0f);
+            else if (volume == Volume.HIGH)
+            	gainControl.setValue(0);
+            
             clip.start();
         }
     } // play ();
