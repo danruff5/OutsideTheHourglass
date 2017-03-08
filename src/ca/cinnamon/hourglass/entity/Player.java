@@ -8,6 +8,7 @@ package ca.cinnamon.hourglass.entity;
 import ca.cinnamon.hourglass.entity.mob.Mob;
 import ca.cinnamon.hourglass.gui.Keys;
 import ca.cinnamon.hourglass.map.Map;
+import ca.cinnamon.hourglass.map.tile.Tile;
 import ca.cinnamon.hourglass.screen.Screen;
 import ca.cinnamon.hourglass.sound.SoundPlayer;
 
@@ -52,6 +53,77 @@ public class Player extends Mob {
             this.moveLeft(currentMap.tiles[loc.x-1][loc.y]);
         }
     }
+    
+    @Override
+    public void moveUp(Tile T)
+  	{
+  		if (!T.collide(this))
+  		{
+  			currentMap.changedTile.add(new Point(this.loc));
+  			this.loc.y -= 1;
+  		}
+  		else
+  		{
+  			SoundPlayer.WALL.play();
+  		}
+  	}
+
+    @Override
+  	public void moveDown(Tile T)
+  	{
+  		if (!T.collide(this))
+  		{
+  			currentMap.changedTile.add(new Point(this.loc));
+  			this.loc.y += 1;
+  		}
+  		else
+  		{
+  			SoundPlayer.WALL.play();
+  		}
+  	}
+
+    @Override
+  	public void moveRight(Tile T)
+  	{
+  		if (!T.collide(this))
+  		{
+  			currentMap.changedTile.add(new Point(this.loc));
+  			this.loc.x += 1;
+  		}
+  		else
+  		{
+  			SoundPlayer.WALL.play();
+  		}
+  	}
+  	
+    @Override
+  	public void moveLeft(Tile T)
+  	{
+  		if (!T.collide(this))
+  		{
+  			currentMap.changedTile.add(new Point(this.loc));
+  			this.loc.x -= 1;
+  		}
+  		else
+  		{
+  			SoundPlayer.WALL.play();
+  		}
+  	}
+    
+    @Override
+  	public int Attack(Entity E)
+  	{
+  		SoundPlayer.SWORD.play();
+  		return E.Hurt(ATK);
+  	}
+
+    @Override
+  	public int Hurt(int DAM)
+  	{
+  		HP -= DAM;
+  		return HP;
+  	}
+  	
     @Override
     public void Draw(Screen screen) {
     	screen.blit(sprites.add("./Pictures/wizzard.bmp"), this.loc.x*Map.tileWidth, (this.loc.y-0)*Map.tileWidth,Map.tileWidth,Map.tileHeight);
