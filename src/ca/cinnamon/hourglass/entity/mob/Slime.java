@@ -22,7 +22,7 @@ public class Slime extends Mob {
 
         //if (ticksSinceLastAction > 100) {
             //1~4 options(up, left, down, right)
-            int randomNum = rnd.nextInt(4) + 1;
+            int randomNum = rnd.nextInt(6) + 1;
             switch (randomNum) {
                 case 1:
                     this.moveUp(currentMap.tiles[loc.x][loc.y - 1]);
@@ -43,6 +43,9 @@ public class Slime extends Mob {
                     this.moveRight(currentMap.tiles[loc.x + 1][loc.y]);
                     //ticksSinceLastAction = 0;
                     break;
+                default:
+                	//1 in 3 chance the slime does nothing
+                	break;
             }
 
         //}

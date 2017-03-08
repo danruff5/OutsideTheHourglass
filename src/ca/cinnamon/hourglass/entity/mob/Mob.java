@@ -17,69 +17,79 @@ import ca.cinnamon.hourglass.sound.SoundPlayer;
  *
  * @author Daniel
  */
-public abstract class Mob implements Entity {
-	public int HP=1;
-	public int ATK=1;
-	public Point loc=new Point(0,0);
+public abstract class Mob implements Entity
+{
+	public int HP = 1;
+	public int ATK = 1;
+	public Point loc = new Point(0, 0);
 	public Map currentMap;
-    public Mob(Point spawn) {
-        super();
-        loc=spawn;
-        currentMap=Map.currentMap;
-    }
-    
-    public void Tick() {}
-    public void Draw(Screen screen) {}
-    public void moveUp(Tile T){
-    	if (!T.collide(this)){
-    		currentMap.changedTile.add(new Point(this.loc));
-    		this.loc.y-=1;
-    	}
-	else
+
+	public Mob(Point spawn)
 	{
-		SoundPlayer.WALL.play();
+		super();
+		loc = spawn;
+		currentMap = Map.currentMap;
 	}
-    }
-    public void moveDown(Tile T){
-    	if (!T.collide(this)){
-    		currentMap.changedTile.add(new Point(this.loc));
-    		this.loc.y+=1;
-    	}
-	else
+
+	public void Tick()
 	{
-		SoundPlayer.WALL.play();
 	}
-    }
-    public void moveRight(Tile T){
-    	if (!T.collide(this)){
-    		currentMap.changedTile.add(new Point(this.loc));
-    		this.loc.x+=1;
-    	}
-	else
+
+	public void Draw(Screen screen)
 	{
-		SoundPlayer.WALL.play();
 	}
-    }
-    public void moveLeft(Tile T){
-    	if (!T.collide(this)){
-    		currentMap.changedTile.add(new Point(this.loc));
-    		this.loc.x-=1;
-    	}
-	else
+
+	public void moveUp(Tile T)
 	{
-		SoundPlayer.WALL.play();
+		if (!T.collide(this))
+		{
+			currentMap.changedTile.add(new Point(this.loc));
+			this.loc.y -= 1;
+		}
 	}
-    }
-    public int Attack(Entity E){
-	SoundPlayer.SWORD.play();
-    	return E.Hurt(ATK);
-    }
-    public int Hurt(int DAM){
-    	HP-=DAM;
-    	return HP;
-    }
-    public Point getLocation(){
-    	return loc;
-    }
-    
+
+	public void moveDown(Tile T)
+	{
+		if (!T.collide(this))
+		{
+			currentMap.changedTile.add(new Point(this.loc));
+			this.loc.y += 1;
+		}
+	}
+
+	public void moveRight(Tile T)
+	{
+		if (!T.collide(this))
+		{
+			currentMap.changedTile.add(new Point(this.loc));
+			this.loc.x += 1;
+		}
+	}
+
+	public void moveLeft(Tile T)
+	{
+		if (!T.collide(this))
+		{
+			currentMap.changedTile.add(new Point(this.loc));
+			this.loc.x -= 1;
+		}
+	}
+
+	public int Attack(Entity E)
+	{
+		SoundPlayer.SWORD.play();
+		return E.Hurt(ATK);
+	}
+
+	public int Hurt(int DAM)
+	{
+		HP -= DAM;
+		return HP;
+	}
+
+	public Point getLocation()
+	{
+		return loc;
+	}
+
 }
