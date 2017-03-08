@@ -5,14 +5,14 @@
  */
 package ca.cinnamon.hourglass.item;
 
-import java.awt.Graphics;
+import ca.cinnamon.hourglass.screen.Screen;
 
 /**
  *
  * @author dckra
  */
 public interface IItem {
-    public void Draw(Graphics g);
+    public void Draw(Screen screen);
     public String getName();
     public String getDescription();
 } // IItem;

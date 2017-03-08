@@ -13,6 +13,7 @@ import ca.cinnamon.hourglass.item.Helmet;
 import ca.cinnamon.hourglass.item.IWeapon;
 import ca.cinnamon.hourglass.item.IWearable;
 import ca.cinnamon.hourglass.item.Leggings;
+import ca.cinnamon.hourglass.item.PlayerInventory;
 import ca.cinnamon.hourglass.item.Sword;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.Tile;
@@ -44,9 +45,11 @@ public class Player extends Mob {
 	private int heartNum = 5; //temp num
 	private int heartDeadNum = 0;
     private Keys keys;
+    private boolean isInventory = false;
     
     private IWeapon weapon;
     private IWearable[] armour;
+    private PlayerInventory inventory;
     
     public int speedLimit=150;
     public Player(Keys keys,Point spawn) {
@@ -61,6 +64,8 @@ public class Player extends Mob {
         armour[1] = new Chest();
         armour[2] = new Leggings();
         armour[3] = new Boots();
+        
+        inventory = new PlayerInventory();
     }
     
     public void Tick() {
@@ -89,6 +94,9 @@ public class Player extends Mob {
         //if (keys.keys[KeyEvent.VK_5].pressed) {
         	
         //}
+        if (keys.keys[KeyEvent.VK_E].pressed) {
+            isInventory = !isInventory;
+        }
     }
     
     @Override
@@ -204,6 +212,9 @@ public class Player extends Mob {
     	{
     		graphicsBrush.drawImage(heartDeadImage, 1000 + (i+heartNum)*60, 10, null);
     	}
+        
+        if (isInventory)
+            inventory.DrawMenu(screen);
     }
     @Override 
     public int Hurt(int DAM){

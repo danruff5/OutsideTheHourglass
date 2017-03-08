@@ -5,7 +5,7 @@
  */
 package ca.cinnamon.hourglass.item;
 
-import java.awt.Graphics;
+import ca.cinnamon.hourglass.screen.Screen;
 
 /**
  *
@@ -23,8 +23,8 @@ public class Helmet implements IWearable {
     } // Protect();
 
     @Override
-    public void Draw(Graphics g) {
-    } // Draw(Graphics)
+    public void Draw(Screen screen) {
+    } // Draw(Screen)
 
     @Override
     public String getName() {

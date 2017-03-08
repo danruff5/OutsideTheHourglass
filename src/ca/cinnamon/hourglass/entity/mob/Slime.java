@@ -52,7 +52,7 @@ public class Slime extends Mob {
 
     }
 
-    @Override //okay test boop
+    @Override 
     public void Draw(Screen screen) {
         screen.blit(sprites.add("./Pictures/slime.bmp"), this.loc.x * Map.tileWidth, (this.loc.y) * Map.tileWidth, 32, 32);
 

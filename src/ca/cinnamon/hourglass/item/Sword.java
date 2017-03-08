@@ -5,7 +5,7 @@
  */
 package ca.cinnamon.hourglass.item;
 
-import java.awt.Graphics;
+import ca.cinnamon.hourglass.screen.Screen;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Sword implements IWeapon {
     } // Attack(Mob);
 
     @Override
-    public void Draw(Graphics g) {
+    public void Draw(Screen screen) {
     } // Draw(Graphics);
 
     @Override

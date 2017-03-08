@@ -5,7 +5,7 @@
  */
 package ca.cinnamon.hourglass.item;
 
-import java.awt.Graphics;
+import ca.cinnamon.hourglass.screen.Screen;
 import java.util.ArrayList;
 
 /**
@@ -23,5 +23,5 @@ public abstract class Container {
         items.remove(item);
     } // RemoveItem(IItem);
     
-    public abstract void DrawMenu(Graphics g);
+    public abstract void DrawMenu(Screen screen);
 } // Container;

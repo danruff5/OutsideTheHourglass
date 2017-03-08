@@ -187,10 +187,10 @@ public class MainComponent extends Canvas implements Runnable {
     }
     
     public void render(Graphics g) {
-    	//Graphics2D g2=(Graphics2D)g;
-        //g.setColor(Color.WHITE);
-        //g.fillRect(0, 0, getWidth(), getHeight());
-        
+//    	Graphics2D g2=(Graphics2D)g;
+//        g.setColor(Color.WHITE);
+//        g.fillRect(0, 0, getWidth(), getHeight());
+                
         currentMap.draw(screen);
         for(int i=0;i<entities.size();++i){
         	entities.get(i).Draw(screen);
