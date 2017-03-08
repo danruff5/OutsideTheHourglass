@@ -7,6 +7,13 @@ package ca.cinnamon.hourglass.entity;
 
 import ca.cinnamon.hourglass.entity.mob.Mob;
 import ca.cinnamon.hourglass.gui.Keys;
+import ca.cinnamon.hourglass.item.Boots;
+import ca.cinnamon.hourglass.item.Chest;
+import ca.cinnamon.hourglass.item.Helmet;
+import ca.cinnamon.hourglass.item.IWeapon;
+import ca.cinnamon.hourglass.item.IWearable;
+import ca.cinnamon.hourglass.item.Leggings;
+import ca.cinnamon.hourglass.item.Sword;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.Tile;
 import ca.cinnamon.hourglass.screen.Screen;
@@ -38,11 +45,22 @@ public class Player extends Mob {
 	private int heartDeadNum = 0;
     private Keys keys;
     
+    private IWeapon weapon;
+    private IWearable[] armour;
+    
     public int speedLimit=150;
     public Player(Keys keys,Point spawn) {
         super(spawn);
         this.keys = keys;
         this.ATK=2;
+        this.HP = 5; // same as heartNum;
+        
+        weapon = new Sword();
+        armour = new IWearable[4];
+        armour[0] = new Helmet();
+        armour[1] = new Chest();
+        armour[2] = new Leggings();
+        armour[3] = new Boots();
     }
     
     public void Tick() {
@@ -133,7 +151,7 @@ public class Player extends Mob {
   	public int Attack(Entity E)
   	{
   		SoundPlayer.SWORD.play();
-  		return E.Hurt(ATK);
+  		return E.Hurt(weapon.Damage());
   	}
   	
     
@@ -189,6 +207,12 @@ public class Player extends Mob {
     }
     @Override 
     public int Hurt(int DAM){
+        double armourFactor = 0;
+        for (IWearable a : armour)
+            armourFactor += a.Protect();
+        
+        DAM = (int)Math.round(DAM - (DAM * (armourFactor / 100.0)));
+        
     	HP-=DAM;
     	this.removeHeart(DAM);
     	return HP;
