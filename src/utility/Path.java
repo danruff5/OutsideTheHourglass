@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 import java.util.Vector;
+
+import ca.cinnamon.hourglass.entity.Entity;
 import ca.cinnamon.hourglass.map.Map;
 
 public class Path {
@@ -20,10 +22,15 @@ public class Path {
 				}
 			}
 		}
+		for (Entity e: Map.currentMap.entities)
+        {
+        	if(!e.getLocation().equals(target)&&!e.getLocation().equals(start))
+        		nodes[e.getLocation().x][e.getLocation().y]=null;
+        }
 		Node goal=nodes[target.x][target.y];
 		for (int i=0;i<m.width;++i){
 			for (int j=0;j<m.height;++j){
-				if (!m.tiles[i][j].isSolid){
+				if (!m.tiles[i][j].isSolid&&nodes[i][j]!=null){
 					nodes[i][j].CalcHet(goal);
 				}
 			}
