@@ -73,40 +73,33 @@ public class MainComponent extends Canvas implements Runnable {
         Map.currentMap=currentMap;
         currentMap.testCave(4);
         
+        MENU  = new Menu(GAME_WIDTH, GAME_HEIGHT);
         
         //currentMap=Map.load();
         //currentMap.save();
 
         keys = new Keys(this);
         this.addKeyListener(keys);
+        //Menu needs to get key events
+        this.addMouseListener(MENU);
     }
     
     public static void main(String[] args) {
         MainComponent mc = new MainComponent();
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(mc);
-
-         GAME = new JFrame();
-         GAME.setContentPane(panel);
-        //frame.setContentPane(panel);
-         GAME.setSize(GAME_WIDTH,GAME_HEIGHT);
-         GAME.setResizable(false);
-         GAME.setLocationRelativeTo(null);
-         GAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         GAME.setVisible(false);
-         GAME.addKeyListener(mc.keys);
         
-
-        MENU = new Menu();
-        //frame.setContentPane(panel);
-        MENU.setVisible(true);
-        while(MENU.GetCurrentGameState() != STATE.Game)
-        {
-        	GAME.setVisible(false);//shitty way of doing it but hey its easy
-        }
+        GAME = new JFrame();
+        GAME.setContentPane(panel);
+        GAME.pack();
+       //frame.setContentPane(panel);
+        GAME.setSize(GAME_WIDTH,GAME_HEIGHT);
+        GAME.setResizable(false);
+        GAME.setLocationRelativeTo(null);
+        GAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        GAME.addKeyListener(mc.keys);
         GAME.setVisible(true);
         Map.currentMap.reDraw();
-        MENU.setVisible(false);
         mc.start();
     }
     
@@ -124,8 +117,8 @@ public class MainComponent extends Canvas implements Runnable {
 
     @Override
     public void run() {
-        //screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
-        screen = new Screen(getWidth(), getHeight());
+        screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
+        //screen = new Screen(getWidth(), getHeight());
 
         
         player = new Player(keys,currentMap.GetRandomFloorTile());
@@ -178,8 +171,11 @@ public class MainComponent extends Canvas implements Runnable {
 
             if (keys.keys[KeyEvent.VK_ESCAPE].pressed) {
                 // Pause?
-                System.out.println("Escape");
+            	if(MENU.GetCurrentGameState() == STATE.Paused || MENU.GetCurrentGameState() == STATE.Menu)
+            		MENU.SetCurrentGameState(STATE.Game);
             	
+            	if(MENU.GetCurrentGameState() == STATE.Game)
+            		Map.currentMap.reDraw();
             }
         }
     }
@@ -188,15 +184,24 @@ public class MainComponent extends Canvas implements Runnable {
     	//Graphics2D g2=(Graphics2D)g;
         //g.setColor(Color.WHITE);
         //g.fillRect(0, 0, getWidth(), getHeight());
-        
-        currentMap.draw(screen);
-        for(int i=0;i<entities.size();++i){
-        	entities.get(i).Draw(screen);
+        if(MENU.GetCurrentGameState() == STATE.Game)
+        {
+	        currentMap.draw(screen);
+	        for(int i=0;i<entities.size();++i){
+	        	entities.get(i).Draw(screen);
+	        }
         }
+        else
+        {
+        	MENU.draw(screen);
+        }
+        
         g.drawImage(screen.image, 0, 0, null);
     }
     
     public void tick() {
+    	//TICK can be done in the mainComponent or before draw?
+    	MENU.Tick();
     	 //player.Tick();
         if (framesSinceLastTick > 10) {
             framesSinceLastTick = 0;
