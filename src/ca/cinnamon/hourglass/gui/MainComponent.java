@@ -50,7 +50,7 @@ public class MainComponent extends Canvas implements Runnable {
     public Keys keys;
     
     public Player player;
-    public ArrayList<Entity> entities;
+    //public ArrayList<Entity> entities;
     
     public static int GAME_WIDTH = 1024 + 422;
     public static int GAME_HEIGHT = 829; //GAME_WIDTH * 9 / 16;
@@ -62,7 +62,7 @@ public class MainComponent extends Canvas implements Runnable {
     private static Menu MENU;
     
 
-    public Map currentMap;
+    
     public MainComponent() {
         this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setMinimumSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
@@ -70,9 +70,9 @@ public class MainComponent extends Canvas implements Runnable {
         
         int mapx=45;
         int mapy=mapx*9/16;
-        currentMap=new Map(mapx,mapy);
-        Map.currentMap=currentMap;
-        currentMap.testCave(4);
+        
+        Map.currentMap=new Map(mapx,mapy);
+        Map.currentMap.testCave(4);
         
         
         //currentMap=Map.load();
@@ -130,26 +130,16 @@ public class MainComponent extends Canvas implements Runnable {
         screen = new Screen(getWidth(), getHeight());
 
         
-        player = new Player(keys,currentMap.GetRandomFloorTile());
-        player.currentMap=currentMap;
-        currentMap.player=player;
-        entities = new ArrayList<>();
-        entities.add(player);
-        Slime slm=new Slime(currentMap.GetRandomFloorTile());
+        player = new Player(keys,Map.currentMap.GetRandomFloorTile());
+        player.currentMap=Map.currentMap;
+        Map.currentMap.player=player;
+        Map.currentMap.entities.add(player);
         
-        entities.add(slm);
-        for (int i=0;i<10;++i){
-        	entities.add(new Slime(currentMap.GetRandomFloorTile()));
-        }
-        entities.add(new Wolf(currentMap.GetRandomFloorTile()));
-        
+                
         long timeSinceStart = System.nanoTime() / 1000;
         long oldTimeSinceStart = 0;
         long deltaTime = 1;
-        currentMap.draw(screen);
-        for(int i=0;i<entities.size();++i){
-        	entities.get(i).Draw(screen);
-        }
+        Map.currentMap.draw(screen);
        
         
         //currentMap.save();
@@ -191,10 +181,7 @@ public class MainComponent extends Canvas implements Runnable {
 //        g.setColor(Color.WHITE);
 //        g.fillRect(0, 0, getWidth(), getHeight());
                 
-        currentMap.draw(screen);
-        for(int i=0;i<entities.size();++i){
-        	entities.get(i).Draw(screen);
-        }
+    	Map.currentMap.draw(screen);
         g.drawImage(screen.image, 0, 0, null);
     }
     
@@ -203,23 +190,24 @@ public class MainComponent extends Canvas implements Runnable {
     	//player.Hurt(1);
         if (framesSinceLastTick > 10) {
             framesSinceLastTick = 0;
-
             player.Tick();
-            for (Entity e : entities) {
+            //player.Tick();
+            for (Entity e : Map.currentMap.entities) {
             	if (e!=player)
             		e.Tick();
             }
             
             // TODO: This loop needs to be redone becasue of removing the entities...
-            for (int i = 0; i < entities.size(); ++i) {
-                for (int j = 0; j < entities.size(); ++j) {
-                    if (i != j && entities.get(i).getLocation().equals(entities.get(j).getLocation())) {
-                        if (entities.get(i).Attack(entities.get(j)) < 1) {
-                            entities.remove(j);
+            for (int i = 0; i < Map.currentMap.entities.size(); ++i) {
+                for (int j = 0; j < Map.currentMap.entities.size(); ++j) {
+                    if (i != j && Map.currentMap.entities.get(i).getLocation().equals(Map.currentMap.entities.get(j).getLocation())) {
+                        if (Map.currentMap.entities.get(i).Attack(Map.currentMap.entities.get(j)) < 1) {
+                        	Map.currentMap.entities.remove(j);
                         }
                     }
                 }
             }
+
         }
     }
 }

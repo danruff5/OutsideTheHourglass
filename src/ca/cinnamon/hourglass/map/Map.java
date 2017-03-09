@@ -16,7 +16,10 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ca.cinnamon.hourglass.entity.Entity;
 import ca.cinnamon.hourglass.entity.Player;
+import ca.cinnamon.hourglass.entity.mob.Slime;
+import ca.cinnamon.hourglass.entity.mob.Wolf;
 import ca.cinnamon.hourglass.map.tile.*;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
@@ -40,12 +43,17 @@ public class Map implements java.io.Serializable{
     public ArrayList<Point> changedTile=new ArrayList<Point>();
     public int height;
     public int width;
-    public transient Bitmap fullBMP; 
+    public transient Bitmap fullBMP;
+    public ArrayList<Entity> entities;
     public Map(int width,int height){
     	this.tiles=new Tile[width][height];
     	this.height=height;
     	this.width=width;
+    	entities = new ArrayList<>();
     	
+    	Map.currentMap=this;
+    	
+
     	//testMap(width,height);
     }
   
@@ -126,6 +134,14 @@ public class Map implements java.io.Serializable{
     	}
     	Point stairs=this.GetRandomFloorTile();
     	this.tiles[stairs.x][stairs.y]=new StairTile(stairs.x*tileWidth,stairs.y*tileHeight);
+    	Slime slm=new Slime(Map.currentMap.GetRandomFloorTile());
+        
+        entities.add(slm);
+        for (int i=0;i<10;++i){
+        	entities.add(new Slime(Map.currentMap.GetRandomFloorTile()));
+        }
+        entities.add(new Wolf(Map.currentMap.GetRandomFloorTile()));
+        
     }
     public void testMaze(int width,int height,int density){
     	 for (int i=0;i<width;++i){
@@ -240,7 +256,10 @@ public class Map implements java.io.Serializable{
         	}
         }
     	changedTile.clear();
-    	
+        for(int i=0;i<entities.size();++i){
+        	entities.get(i).Draw(screen);
+        }
+  
     	
     }
 }
