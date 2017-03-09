@@ -16,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ca.cinnamon.hourglass.entity.Player;
 import ca.cinnamon.hourglass.map.tile.*;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
@@ -33,6 +34,7 @@ public class Map implements java.io.Serializable{
     // This is the entire map of tiles.
     public Tile[][] tiles;
     public static transient Map currentMap=null;
+    public static transient Player player=null;
     public static final int tileWidth = 32;
     public static final int tileHeight = 32;
     public ArrayList<Point> changedTile=new ArrayList<Point>();
