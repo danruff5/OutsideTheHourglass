@@ -203,6 +203,7 @@ public class MainComponent extends Canvas implements Runnable {
                     if (i != j && Map.currentMap.entities.get(i).getLocation().equals(Map.currentMap.entities.get(j).getLocation())) {
                         if (Map.currentMap.entities.get(i).Attack(Map.currentMap.entities.get(j)) < 1) {
                         	Map.currentMap.entities.remove(j);
+                        	++Map.currentMap.player.score;
                         }
                     }
                 }

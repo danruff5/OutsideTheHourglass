@@ -46,7 +46,7 @@ public class Player extends Mob {
 	private int heartDeadNum = 0;
     private Keys keys;
     private boolean isInventory = false;
-    
+    public int score=0;
     private IWeapon weapon;
     private IWearable[] armour;
     private PlayerInventory inventory;
@@ -212,6 +212,16 @@ public class Player extends Mob {
     	{
     		graphicsBrush.drawImage(heartDeadImage, 1000 + (i+heartNum)*60, 10, null);
     	}
+    	String sScore=Integer.toString(score);
+    	int scoreOffset=0;
+    	for (char c : sScore.toCharArray()){
+    		try{
+    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+c-48)+".png"), scoreOffset,0,14,16);
+    		}
+    		catch (Exception ex){}
+	    	scoreOffset+=16;
+    	}
+    	
         
         if (isInventory)
             inventory.DrawMenu(screen);
@@ -229,3 +239,4 @@ public class Player extends Mob {
     	return HP;
     }
 }
+
