@@ -71,36 +71,36 @@ public class Menu implements MouseListener {
 	
 	private Graphics graphicsBrush;
 	
-	List<MenuButton> buttonList = new ArrayList<MenuButton>();
+	//List<MenuButton> buttonList = new ArrayList<MenuButton>();
 	
 	//Dictionary of components drawn on menu
-	Map<String,Rectangle> ComponentMap = new HashMap<String,Rectangle>();
+	Map<String,MenuButton> ComponentMap = new HashMap<String,MenuButton>();
 
 	//temp variables for testing
 	private boolean isDarkened = false;
-
-	class StartButtonListener implements ButtonListener{
-
-		@Override
-		public void buttonPressed(MenuButton button) {
-			// TODO Auto-generated method stub
-			SetCurrentGameState(STATE.Game);
-		}
-
-		@Override
-		public void buttonHovered(MenuButton clickableComponent) {
-			// TODO Auto-generated method stub
-		}
-		
-	}
 	
 	public Menu(int screen_width, int screen_height){
 		//Load buttons
 		MenuButton btnStart = new MenuButton("btnStart", "Start Game", screen_width/2-btnWidth/2, minimumButtonDrawHeight, btnWidth, btnHeight);
-		btnStart.addListener(new StartButtonListener());
-		buttonList.add(btnStart);
-		buttonList.add(new MenuButton("btnOptions", "Options", screen_width/2-btnWidth/2, minimumButtonDrawHeight + minimumButtonSpacing, btnWidth, btnHeight));
-		buttonList.add(new MenuButton("btnExit", "Exit Game", screen_width/2-btnWidth/2, minimumButtonDrawHeight + minimumButtonSpacing*2, btnWidth, btnHeight));
+		ComponentMap.put("btnStart",btnStart);
+		ComponentMap.put("btnOptions",new MenuButton("btnOptions",
+				"Options",
+				screen_width/2-btnWidth/2,
+				minimumButtonDrawHeight + minimumButtonSpacing,
+				btnWidth,
+				btnHeight));
+		ComponentMap.put("btnHelp",new MenuButton("btnHelp",
+				"Help",
+				screen_width/2-btnWidth/2,
+				minimumButtonDrawHeight + minimumButtonSpacing*2,
+				btnWidth,
+				btnHeight));
+		ComponentMap.put("btnExit",new MenuButton("btnExit",
+				"Exit Game",
+				screen_width/2-btnWidth/2,
+				minimumButtonDrawHeight + minimumButtonSpacing*3,
+				btnWidth,
+				btnHeight));
 		
 	}
 	
@@ -129,10 +129,9 @@ public class Menu implements MouseListener {
 	    		isDarkened = true;
     		}
     		
-	    	for(int i  = 0; i < buttonList.size(); ++i)
-	    	{
-	    		buttonList.get(i).draw(screen);
-	    	} 
+        	ComponentMap.forEach((key,value) -> {
+        		value.draw(screen);
+        	});
     	}
     	else if(GetCurrentGameState() == STATE.Menu)
     	{
@@ -143,18 +142,9 @@ public class Menu implements MouseListener {
 	    	graphicsBrush.drawImage(backgroundImage, 0, 0, null);
 			
 	    	//draw buttons
-	    	for(int i  = 0; i < buttonList.size(); ++i)
-	    	{
-	    		buttonList.get(i).draw(screen);
-	    	}
-    	}
-    }
-    
-    //Updates the menu's state and logic
-    public void Tick(){
-    	for(int i  = 0; i < buttonList.size(); ++i)
-    	{
-    		buttonList.get(i).Tick();
+        	ComponentMap.forEach((key,value) -> {
+        		value.draw(screen);
+        	});
     	}
     }
 
@@ -206,58 +196,72 @@ public class Menu implements MouseListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
+	public void mouseClicked(MouseEvent e) {
 
     	ComponentMap.forEach((key,value) -> {
-    	Shape s = (Shape)value;
-    	if(s.contains(arg0.getPoint()))
-    	{
     		switch(key){
-    		case "Start Game":
-    			SetCurrentGameState( STATE.Game);
+    		case "btnStart":
+    			if(value.isWithinBounds(e.getX(), e.getY()))
+    				SetCurrentGameState( STATE.Game);
     			break;
-    		case "Options":
-    			SetCurrentGameState( STATE.Options);
+    		case "btnOptions":
+    			if(value.isWithinBounds(e.getX(), e.getY()))
+    				SetCurrentGameState( STATE.Options);
     			break;
-    		case "Help":
-    			SetCurrentGameState( STATE.Help);
+    		case "btnHelp":
+    			if(value.isWithinBounds(e.getX(), e.getY()))
+    				SetCurrentGameState( STATE.Help);
     			break;
-    		case "Exit Game":
-    			SetCurrentGameState( STATE.Exit);
+    		case "btnExit":
+    			if(value.isWithinBounds(e.getX(), e.getY()))
+    				SetCurrentGameState( STATE.Exit);
     			break;
-    		}
     	}
     	});
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
+	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
+	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-    	for(int i  = 0; i < buttonList.size(); ++i)
-    	{
-    		buttonList.get(i).mousePressed(arg0);
+    	ComponentMap.forEach((key,value) -> {
+    		switch(key){
+    		case "btnStart":
+    			if(value.isWithinBounds(e.getX(), e.getY()))
+    				value.pressed = true;
+    			break;
+    		case "btnOptions":
+    			if(value.isWithinBounds(e.getX(), e.getY()))
+    				value.pressed = true;
+    			break;
+    		case "btnHelp":
+    			if(value.isWithinBounds(e.getX(), e.getY()))
+    				value.pressed = true;
+    			break;
+    		case "btnExit":
+    			if(value.isWithinBounds(e.getX(), e.getY()))
+    				value.pressed = true;
+    			break;
     	}
+    	});
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-    	for(int i  = 0; i < buttonList.size(); ++i)
-    	{
-    		buttonList.get(i).mouseReleased(arg0);
-    	}	
+	public void mouseReleased(MouseEvent e) {
+    	ComponentMap.forEach((key,value) -> {
+    		value.pressed = false;
+    	});
     }
 	
 }

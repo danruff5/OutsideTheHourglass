@@ -5,6 +5,7 @@
  */
 package ca.cinnamon.hourglass.map.tile;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -35,16 +36,17 @@ public abstract class Tile implements java.io.Serializable{
     protected int X_OFFSET = 0;
     protected int Y_OFFSET = 0;
     protected String img;
-    protected boolean isSolid;
+    public boolean isSolid;
     // The position of the tile.
     protected int x;
     protected int y;
     protected Random rnd=new Random();
-    
+    public Point loc;
     
     public Tile(int x, int y)  {
         this.x = x;
         this.y = y;
+        loc=new Point(x/WIDTH,y/HEIGHT);
         img=null;
     }
     

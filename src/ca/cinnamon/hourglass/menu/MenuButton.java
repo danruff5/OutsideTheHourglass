@@ -12,7 +12,7 @@ import java.util.List;
 
 import ca.cinnamon.hourglass.screen.Screen;
 
-public class MenuButton implements MouseListener{
+public class MenuButton {
 
     public static final int BUTTON_WIDTH = 150;
     public static final int BUTTON_HEIGHT = 50;
@@ -27,18 +27,16 @@ public class MenuButton implements MouseListener{
 	private int labelx = 0,labely = 0;
 	private Shape shape;
 	
-	public Color ButtonColour = Color.DARK_GRAY;
-	public Color ButtonBorderColour = Color.BLUE;
+	public Color ButtonColour = Color.DARK_GRAY.brighter();
+	public Color ButtonBorderColour = Color.BLUE.darker();
 	public Color ButtonTextColour = Color.LIGHT_GRAY;
 	public Font ButtonTextFont = new Font("Arial Black", Font.BOLD, 20);
 	public enum FontAlign {
 		LEFT, CENTERED, RIGHT
 	}
 	
-	private boolean pressed = false;
-	
-	private List<ButtonListener> listeners;
-
+	public boolean pressed = false;
+	private boolean clicked = false;
 
 
 	public MenuButton(String name, String label, int x, int y) {
@@ -64,9 +62,13 @@ public class MenuButton implements MouseListener{
 	public String getLabel() {
 		return label;
 	}
-	
-	public boolean isPressed(){
-		return pressed;
+
+	public boolean isWithinBounds(int x, int y){
+		if(shape.contains(x, y))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public void setLabel(String label) {
@@ -79,6 +81,7 @@ public class MenuButton implements MouseListener{
 			graphicsBrush = screen.image.getGraphics();
 		if(labelx == 0 || labely == 0)
 		{
+	    	graphicsBrush.setFont(ButtonTextFont);
 	    	int stringWidth = graphicsBrush.getFontMetrics().stringWidth(label);
 			this.labelx = x + w/2 - stringWidth/2;
 			this.labely = y + h/2+(int)ButtonTextFont.getSize()/2;
@@ -87,13 +90,12 @@ public class MenuButton implements MouseListener{
 		if(pressed)
 		{
 		    graphicsBrush.setColor(ButtonColour.darker());
-		    graphicsBrush.fillRect(x, y, w, h);
 		}
 		else
 		{
 		    graphicsBrush.setColor(ButtonColour);
-		    graphicsBrush.fillRect(x, y, w, h);
 		}
+	    graphicsBrush.fillRect(x, y, w, h);
 		//make a border for the button
     	graphicsBrush.setColor(ButtonBorderColour);
     	graphicsBrush.drawRect(x, y, w, h);
@@ -107,53 +109,8 @@ public class MenuButton implements MouseListener{
 		
 	}
 	
-	public void addListener(ButtonListener listen){
-		if (listeners == null) {
-			listeners = new ArrayList<ButtonListener>();
-		}
-		listeners.add(listen);
-	}
-	
-	public void Tick(){
-		if(pressed)
-		if (listeners != null) {
-			for (ButtonListener listener : listeners) {
-				listener.buttonPressed(this);
-			}
-		}
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if(shape.contains(e.getX(), e.getY()))
-		{
-			pressed = true;
-		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		pressed = false;
-	}
-	
 }
