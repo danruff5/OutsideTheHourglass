@@ -217,6 +217,19 @@ public class MainComponent extends Canvas implements Runnable {
             			e.Attack(Map.player);
             
             }
+            itr = Map.currentMap.entities.iterator();
+            while (itr.hasNext())
+            {
+            	try{
+	            	Mob e=(Mob)itr.next();
+	            	if(e.HP<=0&&e!=Map.player)
+	            	{
+	            		itr.remove();
+	            		++Map.player.score;
+	            	}
+            	}
+            	catch(Exception ex){}
+            }
             /*
             // TODO: This loop needs to be redone becasue of removing the entities...
             for (int i = 0; i < Map.currentMap.entities.size(); ++i) {
