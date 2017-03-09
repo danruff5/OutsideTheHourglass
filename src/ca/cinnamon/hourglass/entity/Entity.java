@@ -23,4 +23,5 @@ public interface Entity {
     public int Hurt(int DAM);
     public Point getLocation();
     public int Attack(Entity E);
+    public int Death();
 }

@@ -17,6 +17,7 @@ import javax.sound.sampled.FloatControl;
 public enum SoundPlayer {
 			STEP("./Sounds/stepstone_1.wav"),
 			SWORD("./Sounds/sword sound.wav"),
+			MONSTER("./Sounds/monster.wav"),
 			WALL("./Sounds/metal.wav");
 
     public static enum Volume {

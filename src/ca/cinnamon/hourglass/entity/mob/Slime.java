@@ -15,6 +15,7 @@ public class Slime extends Mob {
     public Slime(Point spawn) {
         super(spawn);
         this.HP = 1;//health points
+        this.POINT_VALUE = 100;
     }
 
     public void Tick() {
