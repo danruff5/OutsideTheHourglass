@@ -214,6 +214,26 @@ public class Player extends Mob {
     	}
     	String sScore=Integer.toString(score);
     	int scoreOffset=0;
+    	try{
+    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'S'-48)+".png"), scoreOffset,0,14,16);
+	    	scoreOffset+=16;
+    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'C'-48)+".png"), scoreOffset,0,14,16);
+	    	scoreOffset+=16;
+
+    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'O'-48)+".png"), scoreOffset,0,14,16);
+	    	scoreOffset+=16;
+
+    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'R'-48)+".png"), scoreOffset,0,14,16);
+	    	scoreOffset+=16;
+	    	screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'E'-48)+".png"), scoreOffset,0,14,16);
+	    	scoreOffset+=16;
+
+    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+"26"+".png"), scoreOffset,0,8,16);
+	    	scoreOffset+=16;
+	    	scoreOffset+=16;
+
+    	}
+    	catch (Exception ex){}
     	for (char c : sScore.toCharArray()){
     		try{
     		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+c-48)+".png"), scoreOffset,0,14,16);

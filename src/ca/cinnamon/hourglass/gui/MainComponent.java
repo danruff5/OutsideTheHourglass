@@ -49,7 +49,7 @@ public class MainComponent extends Canvas implements Runnable {
     private Screen screen;
     public Keys keys;
     
-    public Player player;
+    
     //public ArrayList<Entity> entities;
     
     public static int GAME_WIDTH = 1024 + 422;
@@ -129,10 +129,10 @@ public class MainComponent extends Canvas implements Runnable {
         //screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
         screen = new Screen(getWidth(), getHeight());
 
-        
+        Player player;    
         player = new Player(keys,Map.currentMap.GetRandomFloorTile());
         player.currentMap=Map.currentMap;
-        Map.currentMap.player=player;
+        Map.player=player;
         Map.currentMap.entities.add(player);
         
                 
@@ -190,13 +190,37 @@ public class MainComponent extends Canvas implements Runnable {
     	//player.Hurt(1);
         if (framesSinceLastTick > 10) {
             framesSinceLastTick = 0;
-            player.Tick();
-            //player.Tick();
-            for (Entity e : Map.currentMap.entities) {
-            	if (e!=player)
-            		e.Tick();
+            for (Entity e: Map.currentMap.entities)
+            {
+            	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
+            		if (Map.player.Attack(e)<1)
+            		{
+            			Map.currentMap.entities.remove(e);
+            			++Map.player.score;
+            		}
+            		else{
+            			e.Attack(Map.player);
+            		}
             }
             
+            Map.player.Tick();
+            
+            for (Entity e: Map.currentMap.entities)
+            {
+            	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
+            		if (Map.player.Attack(e)<1)
+            		{
+            			Map.currentMap.entities.remove(e);
+            			++Map.player.score;
+            		}
+            }
+            
+            //player.Tick();
+            for (Entity e : Map.currentMap.entities) {
+            	if (e!=Map.player)
+            		e.Tick();
+            }
+            /*
             // TODO: This loop needs to be redone becasue of removing the entities...
             for (int i = 0; i < Map.currentMap.entities.size(); ++i) {
                 for (int j = 0; j < Map.currentMap.entities.size(); ++j) {
@@ -208,7 +232,7 @@ public class MainComponent extends Canvas implements Runnable {
                     }
                 }
             }
-
+             */
         }
     }
 }
