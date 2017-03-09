@@ -13,7 +13,7 @@ public class Wolf extends Mob {
 	
 	public Wolf(Point spawn) {
 		super(spawn);
-        this.HP = 2;//health points
+        this.HP = 1;//health points
         
 	}
 

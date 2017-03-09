@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.sql.Time;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -190,27 +191,17 @@ public class MainComponent extends Canvas implements Runnable {
     	//player.Hurt(1);
         if (framesSinceLastTick > 10) {
             framesSinceLastTick = 0;
-            for (Entity e: Map.currentMap.entities)
-            {
-            	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
-            		if (Map.player.Attack(e)<1)
-            		{
-            			Map.currentMap.entities.remove(e);
-            			++Map.player.score;
-            		}
-            		else{
-            			e.Attack(Map.player);
-            		}
-            }
+            
             
             Map.player.Tick();
-            
-            for (Entity e: Map.currentMap.entities)
+            Iterator<Entity> itr = Map.currentMap.entities.iterator();
+            while (itr.hasNext())
             {
+            	Entity e=itr.next();
             	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
             		if (Map.player.Attack(e)<1)
             		{
-            			Map.currentMap.entities.remove(e);
+            			itr.remove();
             			++Map.player.score;
             		}
             }
@@ -219,6 +210,12 @@ public class MainComponent extends Canvas implements Runnable {
             for (Entity e : Map.currentMap.entities) {
             	if (e!=Map.player)
             		e.Tick();
+            }
+            for (Entity e: Map.currentMap.entities)
+            {
+            	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
+            			e.Attack(Map.player);
+            
             }
             /*
             // TODO: This loop needs to be redone becasue of removing the entities...
