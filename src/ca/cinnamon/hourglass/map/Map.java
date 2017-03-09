@@ -89,6 +89,7 @@ public class Map implements java.io.Serializable{
         }
         for (int i=0;i<width;++i){
         	this.tiles[i][0]=new WallTile(tileWidth*i,0);
+        	this.tiles[i][1]=new WallTile(tileWidth*i,1);
         	this.tiles[i][height-1]=new WallTile(tileWidth*i,tileHeight*(height-1));
         }
         for (int i=0;i<height;++i){
@@ -215,7 +216,7 @@ public class Map implements java.io.Serializable{
     	fullBMP=null;
     }
     public void draw(Screen screen) {
-    	if (fullBMP==null){
+    	/*if (fullBMP==null){
     		fullBMP=new Bitmap(screen.w,screen.h);
 	        for (int i = 0; i < width; ++i) {
 	        	for (int j=0;j < height;++j)
@@ -231,7 +232,13 @@ public class Map implements java.io.Serializable{
     	
     	for(Point p :this.changedTile){
     		this.tiles[p.x][p.y].draw(screen);
-    	}
+    	}*/
+    	for (int i = 0; i < width; ++i) {
+        	for (int j=0;j < height;++j)
+        	{
+        		tiles[i][j].draw(screen);
+        	}
+        }
     	changedTile.clear();
     	
     	

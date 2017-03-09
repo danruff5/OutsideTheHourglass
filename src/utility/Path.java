@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.Vector;
 import ca.cinnamon.hourglass.map.Map;
 
@@ -14,12 +15,21 @@ public class Path {
 		Node[][] nodes= new Node[m.width][m.height];
 		for (int i=0;i<m.width;++i){
 			for (int j=0;j<m.height;++j){
-				if (!m.tiles[i][j].isSolid)
-				nodes[i][j]=new Node(i,j,null);
+				if (!m.tiles[i][j].isSolid){
+					nodes[i][j]=new Node(i,j,null);
+				}
+			}
+		}
+		Node goal=nodes[target.x][target.y];
+		for (int i=0;i<m.width;++i){
+			for (int j=0;j<m.height;++j){
+				if (!m.tiles[i][j].isSolid){
+					nodes[i][j].CalcHet(goal);
+				}
 			}
 		}
 		Node v=nodes[start.x][start.y];
-		Set<Node> openSet=new LinkedHashSet<Node>();
+		Set<Node> openSet=new TreeSet<Node>();
 		List<Node> closedSet=new Vector<Node>();
 		openSet.add(v);
 		while(!openSet.isEmpty()){
@@ -50,10 +60,11 @@ public class Path {
 		Node ret=nodes[target.x][target.y].rootP1();
 		return new Point(ret.x,ret.y);
 	}
-	static class Node{
+	static class Node implements Comparable<Node>{
 		public int x;
 		public int y;
 		public Node parent;
+		public int het=-1;
 		public Node(Point p, Node parent){
 			x=p.x;	y=p.y;
 			this.parent=parent;
@@ -82,6 +93,13 @@ public class Path {
 				return this;
 			return parent.rootP1();
 		}
-		
+		public void CalcHet(Node goal){
+			het=(Math.abs(goal.x-x)+Math.abs(goal.y-y));
+		}
+		@Override
+		public int compareTo(Node other) {
+			// TODO Auto-generated method stub
+			return Integer.compare(this.het, other.het);
+		}
 	}
 }
