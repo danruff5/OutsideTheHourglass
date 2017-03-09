@@ -14,8 +14,8 @@ import ca.cinnamon.hourglass.menu.Menu.STATE;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
-import ca.cinnamon.hourglass.sound.SoundPlayer;
-import ca.cinnamon.hourglass.sound.MusicPlayer;
+
+import ca.cinnamon.hourglass.sound.*;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.CardLayout;
