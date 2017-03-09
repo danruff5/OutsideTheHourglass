@@ -132,7 +132,7 @@ public class MainComponent extends Canvas implements Runnable {
         
         player = new Player(keys,currentMap.GetRandomFloorTile());
         player.currentMap=currentMap;
-        
+        currentMap.player=player;
         entities = new ArrayList<>();
         entities.add(player);
         Slime slm=new Slime(currentMap.GetRandomFloorTile());
