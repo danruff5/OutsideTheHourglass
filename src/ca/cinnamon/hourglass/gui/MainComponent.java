@@ -9,8 +9,8 @@ import ca.cinnamon.hourglass.entity.*;
 import ca.cinnamon.hourglass.entity.mob.*;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.*;
-import ca.cinnamon.hourglass.menu.Menu;
-import ca.cinnamon.hourglass.menu.Menu.STATE;
+import ca.cinnamon.hourglass.menu.MainMenu;
+import ca.cinnamon.hourglass.menu.MainMenu.STATE;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
@@ -42,8 +42,6 @@ import javax.swing.JPanel;
  * @author daniel
  */
 
-
-
 public class MainComponent extends Canvas implements Runnable {
 	
     public boolean running;
@@ -60,7 +58,7 @@ public class MainComponent extends Canvas implements Runnable {
     
     //Game and Menu frame
     private static JFrame GAME;
-    private static Menu MENU;
+    private static MainMenu MENU;
     
 
     
@@ -75,7 +73,7 @@ public class MainComponent extends Canvas implements Runnable {
         Map.currentMap=new Map(mapx,mapy);
         Map.currentMap.testCave(4);
         
-        MENU  = new Menu(GAME_WIDTH, GAME_HEIGHT);
+        MENU  = new MainMenu(GAME_WIDTH, GAME_HEIGHT);
         
         //currentMap=Map.load();
         //currentMap.save();
@@ -180,6 +178,11 @@ public class MainComponent extends Canvas implements Runnable {
         if(MENU.GetCurrentGameState() == STATE.Game)
         {
         	Map.currentMap.draw(screen);
+        }
+        else if(MENU.GetCurrentGameState() == STATE.Exit)
+        {
+        	stop();
+        	GAME.dispose();
         }
         else
         {

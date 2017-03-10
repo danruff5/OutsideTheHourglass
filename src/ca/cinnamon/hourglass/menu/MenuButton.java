@@ -7,12 +7,13 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.cinnamon.hourglass.screen.Screen;
 
-public class MenuButton {
+public class MenuButton implements MouseListener {
 
     public static final int BUTTON_WIDTH = 150;
     public static final int BUTTON_HEIGHT = 50;
@@ -23,6 +24,8 @@ public class MenuButton {
 	
 	private Graphics graphicsBrush;
 	
+	private List<ButtonListener> listeners;
+	
 	private int x,y,w,h;
 	private int labelx = 0,labely = 0;
 	private Shape shape;
@@ -31,13 +34,10 @@ public class MenuButton {
 	public Color ButtonBorderColour = Color.BLUE.darker();
 	public Color ButtonTextColour = Color.LIGHT_GRAY;
 	public Font ButtonTextFont = new Font("Arial Black", Font.BOLD, 20);
-	public enum FontAlign {
-		LEFT, CENTERED, RIGHT
-	}
 	
-	public boolean pressed = false;
-	private boolean clicked = false;
-
+	private boolean isPressed = false;
+	//Allow hover button colour change, add a mousemotionlistener???
+	private boolean hover = false;
 
 	public MenuButton(String name, String label, int x, int y) {
 		this.x = x;
@@ -87,7 +87,7 @@ public class MenuButton {
 			this.labely = y + h/2+(int)ButtonTextFont.getSize()/2;
 		}
 
-		if(pressed)
+		if(isPressed)
 		{
 		    graphicsBrush.setColor(ButtonColour.darker());
 		}
@@ -109,8 +109,54 @@ public class MenuButton {
 		
 	}
 	
+	public void addListener(ButtonListener listener) {
+		if (listeners == null) {
+			listeners = new ArrayList<ButtonListener>();
+		}
+		listeners.add(listener);
+	}
+	
 	public String getName() {
 		return name;
 	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(isWithinBounds(e.getX(), e.getY()))
+		{
+			if (listeners != null) {
+				for (ButtonListener listener : listeners) {
+					listener.buttonPressed(this);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		hover = false;
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(isWithinBounds(e.getX(),e.getY()))
+		{
+			isPressed = true;
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		isPressed = false;
+	}
 }

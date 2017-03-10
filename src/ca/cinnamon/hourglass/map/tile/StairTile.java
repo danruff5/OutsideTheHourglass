@@ -10,7 +10,7 @@ public class StairTile extends Tile {
 		X_OFFSET=WIDTH*5;
 		Y_OFFSET=HEIGHT*4;
 		img="./Pictures/sheet32x.png";
-        this.isSolid=false;
+        this.isSolid=true;
 	}
 	
 	@Override
