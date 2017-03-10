@@ -64,16 +64,17 @@ public class MenuButton implements MouseListener, MouseMotionListener {
 		return label;
 	}
 
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	
+	//Checks if the coordinates are within the boundary of the button
 	public boolean isWithinBounds(int x, int y){
 		if(shape.contains(x, y))
 		{
 			return true;
 		}
 		return false;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
 	}
 
 	public void draw(Screen screen) {

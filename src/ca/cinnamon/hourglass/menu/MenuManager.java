@@ -21,7 +21,7 @@ public MenuManager(){
 	//on initial load 
 	
 	//create a menu
-	//register it with a a listener so that it 
+	//register it with a a listener so that we can handle menu closing or state changed
 };
 
 public int CurrentMenuIndex(){

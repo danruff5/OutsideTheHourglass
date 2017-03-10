@@ -41,13 +41,12 @@ import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.Screen;
 
 
-public class MainMenu extends Menu implements MouseListener, MouseMotionListener {
+public class MainMenu extends Menu  {
 
     public static enum STATE{
     	Menu,
     	Game,
     	Options,
-    	Paused,
     	Help,
     	Exit
     }
@@ -58,9 +57,6 @@ public class MainMenu extends Menu implements MouseListener, MouseMotionListener
 	private BufferedImage backgroundImage;
 	
 	private Graphics graphicsBrush;
-	
-	//Dictionary of components drawn on menu
-	Map<String,MenuButton> ComponentMap = new HashMap<String,MenuButton>();
 
 	//temp variables for testing
 	private boolean isDarkened = false;
@@ -73,8 +69,12 @@ public class MainMenu extends Menu implements MouseListener, MouseMotionListener
 	
 	public MainMenu(int screen_width, int screen_height){
 		//Load buttons
-		
-		MenuButton btnStart = new MenuButton("btnStart", "Start Game", screen_width/2-btnWidth/2, minimumButtonDrawHeight, btnWidth, btnHeight);
+		MenuButton btnStart = new MenuButton("btnStart",
+				"Start Game",
+				screen_width/2-btnWidth/2,
+				minimumButtonDrawHeight,
+				btnWidth,
+				btnHeight);
 		btnStart.addListener(new ButtonListener() {
 		    @Override
 		    public void buttonPressed(MenuButton btn) {
@@ -122,6 +122,7 @@ public class MainMenu extends Menu implements MouseListener, MouseMotionListener
 		    @Override
 		    public void buttonPressed(MenuButton btn) {
 		        SetCurrentGameState(STATE.Exit);
+		        closingMenu();//This will run code in the statelistener if there is any closing code
 		    }
 		});
 		ComponentMap.put("btnExit", btnExit);
@@ -147,20 +148,6 @@ public class MainMenu extends Menu implements MouseListener, MouseMotionListener
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-    	}
-    	
-    	if(GetCurrentGameState() == STATE.Paused)
-    	{
-    		if(!isDarkened)
-    		{
-	    		graphicsBrush.setColor(new Color(0, 0, 0, 0.8f));
-	    		graphicsBrush.fillRect(0, 0, screen_width, screen_height);
-	    		isDarkened = true;
-    		}
-    		
-        	ComponentMap.forEach((key,value) -> {
-        		value.draw(screen);
-        	});
     	}
     	else if(GetCurrentGameState() == STATE.Menu)
     	{
@@ -214,60 +201,8 @@ public class MainMenu extends Menu implements MouseListener, MouseMotionListener
 	{
 		GameState = s;
 		//Create a StateChangedEvent here and throw it back to the main
-		
+		stateChanged();
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-    	ComponentMap.forEach((key,value) -> {
-    		value.mouseClicked(e);
-    	});
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-    	ComponentMap.forEach((key,value) -> {
-    		value.mouseEntered(e);
-    	});
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-    	ComponentMap.forEach((key,value) -> {
-    		value.mouseExited(e);
-    	});
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-    	ComponentMap.forEach((key,value) -> {
-    		value.mousePressed(e);
-    	});
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-    	ComponentMap.forEach((key,value) -> {
-    		value.mouseReleased(e);
-    	});
-    }
-
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-    	ComponentMap.forEach((key,value) -> {
-    		value.mouseDragged(e);
-    	});
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-    	ComponentMap.forEach((key,value) -> {
-    		value.mouseMoved(e);
-    	});
-	}
 }
 
