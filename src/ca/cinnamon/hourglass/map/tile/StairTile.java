@@ -18,7 +18,7 @@ public class StairTile extends Tile {
 		//IF E=PLAYER THEN MOVER DOWN FLOOR
 		if(E==Map.player){
 		Map.currentMap= new Map(Map.currentMap.width,Map.currentMap.height);
-		Map.currentMap.testCave(2);
+		Map.currentMap.testCave(3);
 		Map.player.currentMap=Map.currentMap;
 		if (Map.player!=null){
         	Map.currentMap.entities.add(Map.player);
