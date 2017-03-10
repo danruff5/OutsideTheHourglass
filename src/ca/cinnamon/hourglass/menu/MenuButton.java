@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.cinnamon.hourglass.screen.Screen;
+import ca.cinnamon.hourglass.sound.SoundPlayer;
 
 public class MenuButton implements MouseListener, MouseMotionListener {
 
-    public static final int BUTTON_WIDTH = 150;
-    public static final int BUTTON_HEIGHT = 50;
+    private final int BUTTON_WIDTH = 150;
+    private final int BUTTON_HEIGHT = 50;
     
 	private final String name;
 
@@ -129,6 +130,7 @@ public class MenuButton implements MouseListener, MouseMotionListener {
 		// TODO Auto-generated method stub
 		if(isWithinBounds(e.getX(), e.getY()))
 		{
+			SoundPlayer.BUTTON.play();
 			if (listeners != null) {
 				for (ButtonListener listener : listeners) {
 					listener.buttonPressed(this);

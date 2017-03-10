@@ -36,11 +36,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import ca.cinnamon.hourglass.menu.MenuManager.MenuType;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.Screen;
 
 
-public class MainMenu implements MouseListener, MouseMotionListener {
+public class MainMenu extends Menu implements MouseListener, MouseMotionListener {
 
     public static enum STATE{
     	Menu,
@@ -58,13 +59,17 @@ public class MainMenu implements MouseListener, MouseMotionListener {
 	
 	private Graphics graphicsBrush;
 	
-	//List<MenuButton> buttonList = new ArrayList<MenuButton>();
-	
 	//Dictionary of components drawn on menu
 	Map<String,MenuButton> ComponentMap = new HashMap<String,MenuButton>();
 
 	//temp variables for testing
 	private boolean isDarkened = false;
+	
+	//Main menu button values
+	private int minimumButtonDrawHeight = 200;
+	private int minimumButtonSpacing = 125;
+	private int btnHeight = 50;
+	private int btnWidth = 150;
 	
 	public MainMenu(int screen_width, int screen_height){
 		//Load buttons
@@ -122,6 +127,12 @@ public class MainMenu implements MouseListener, MouseMotionListener {
 		ComponentMap.put("btnExit", btnExit);
 	}
 	
+	public void init(MenuType id){
+		//Put initial loading in here after changing how screen size is passed
+		ID = id;
+		
+	}
+	
     public void draw(Screen screen) {
     	int screen_width = screen.w;
     	int screen_height = screen.h;
@@ -153,9 +164,6 @@ public class MainMenu implements MouseListener, MouseMotionListener {
     	}
     	else if(GetCurrentGameState() == STATE.Menu)
     	{
-	    	//Clear previous image
-	    	//graphicsBrush.clearRect(0, 0, screen_width, screen_height);
-	    	
 	    	//Draw Background Image
 	    	graphicsBrush.drawImage(backgroundImage, 0, 0, null);
 			
@@ -165,7 +173,7 @@ public class MainMenu implements MouseListener, MouseMotionListener {
         	});
     	}
     }
-    public void Tick(){
+    public void tick(){
     	
     }
 
@@ -174,13 +182,6 @@ public class MainMenu implements MouseListener, MouseMotionListener {
 	 *  Utility methods
 	 * 
 	 ==============================================================*/
-	private int minimumButtonDrawHeight = 200;
-	private int minimumButtonSpacing = 125;
-	
-	private int btnHeight = 50;
-	private int btnWidth = 150;
-	private Color buttonBorderColour = new Color(45, 67, 102);
-	Font buttonFont = new Font("TimesRoman", Font.BOLD, 20);
 	
 	private void HelpClicked()
 	{
@@ -268,6 +269,5 @@ public class MainMenu implements MouseListener, MouseMotionListener {
     		value.mouseMoved(e);
     	});
 	}
-	
 }
 
