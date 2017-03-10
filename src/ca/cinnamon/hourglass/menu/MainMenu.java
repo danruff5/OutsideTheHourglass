@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,7 +40,7 @@ import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.Screen;
 
 
-public class MainMenu implements MouseListener {
+public class MainMenu implements MouseListener, MouseMotionListener {
 
     public static enum STATE{
     	Menu,
@@ -251,6 +252,22 @@ public class MainMenu implements MouseListener {
     		value.mouseReleased(e);
     	});
     }
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+    	ComponentMap.forEach((key,value) -> {
+    		value.mouseDragged(e);
+    	});
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+    	ComponentMap.forEach((key,value) -> {
+    		value.mouseMoved(e);
+    	});
+	}
 	
 }
 

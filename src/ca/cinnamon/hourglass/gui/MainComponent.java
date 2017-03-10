@@ -82,6 +82,7 @@ public class MainComponent extends Canvas implements Runnable {
         this.addKeyListener(keys);
         //Menu needs to get key events
         this.addMouseListener(MENU);
+        this.addMouseMotionListener(MENU);
     }
     
     public static void main(String[] args) {

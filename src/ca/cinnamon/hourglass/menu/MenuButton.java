@@ -13,7 +13,7 @@ import java.util.List;
 
 import ca.cinnamon.hourglass.screen.Screen;
 
-public class MenuButton implements MouseListener {
+public class MenuButton implements MouseListener, MouseMotionListener {
 
     public static final int BUTTON_WIDTH = 150;
     public static final int BUTTON_HEIGHT = 50;
@@ -91,6 +91,10 @@ public class MenuButton implements MouseListener {
 		{
 		    graphicsBrush.setColor(ButtonColour.darker());
 		}
+		else if(hover)
+		{
+			graphicsBrush.setColor(ButtonColour.brighter());
+		}
 		else
 		{
 		    graphicsBrush.setColor(ButtonColour);
@@ -158,5 +162,22 @@ public class MenuButton implements MouseListener {
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		isPressed = false;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(isWithinBounds(e.getX(),e.getY()))
+		{
+			hover = true;
+		}
+		else 
+			hover = false;
 	}
 }
