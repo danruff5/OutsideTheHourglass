@@ -9,8 +9,10 @@ import ca.cinnamon.hourglass.entity.*;
 import ca.cinnamon.hourglass.entity.mob.*;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.*;
+import ca.cinnamon.hourglass.menu.GameMenu;
 import ca.cinnamon.hourglass.menu.MainMenu;
 import ca.cinnamon.hourglass.menu.MainMenu.STATE;
+import ca.cinnamon.hourglass.menu.MenuManager;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
@@ -47,20 +49,14 @@ public class MainComponent extends Canvas implements Runnable {
     public boolean running;
     private Screen screen;
     public Keys keys;
-    
-    
-    //public ArrayList<Entity> entities;
-    
+        
     public static int GAME_WIDTH = 1024 + 422;
     public static int GAME_HEIGHT = 829; //GAME_WIDTH * 9 / 16;
-    
-    private int framesSinceLastTick = 0;
-    
+
     //Game and Menu frame
     private static JFrame GAME;
-    private static MainMenu MENU;
     
-
+    private MenuManager manager;
     
     public MainComponent() {
         this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
@@ -73,17 +69,12 @@ public class MainComponent extends Canvas implements Runnable {
         Map.currentMap=new Map(mapx,mapy);
         Map.currentMap.testCave(4);
         
-        MENU  = new MainMenu(GAME_WIDTH, GAME_HEIGHT);
-        
         //currentMap=Map.load();
         //currentMap.save();
 
         keys = new Keys(this);
         this.addKeyListener(keys);
-        //Menu needs to get key events
-        this.addMouseListener(MENU);
-        this.addMouseMotionListener(MENU);
-    }
+    } // MainComponent();
     
     public static void main(String[] args) {
         MainComponent mc = new MainComponent();
@@ -100,9 +91,9 @@ public class MainComponent extends Canvas implements Runnable {
         GAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GAME.addKeyListener(mc.keys);
         GAME.setVisible(true);
-        Map.currentMap.reDraw();
+        //Map.currentMap.reDraw();
         mc.start();
-    }
+    } // main(String[]);
     
     public void start() {
         SoundPlayer.init();
@@ -110,8 +101,14 @@ public class MainComponent extends Canvas implements Runnable {
         running = true;
         Thread thread = new Thread(this);
         thread.setPriority(Thread.MAX_PRIORITY);
+        
+        manager = new MenuManager(this);
+        manager.addMenu(new MainMenu(GAME_WIDTH, GAME_HEIGHT));
+        manager.addMenu(new GameMenu(GAME_WIDTH, GAME_HEIGHT, keys));
+        manager.LoadMenuAt(0);
+        
         thread.start();
-    }
+    } // start();
     
     public void stop() {
         running = false;
@@ -120,22 +117,11 @@ public class MainComponent extends Canvas implements Runnable {
     @Override
     public void run() {
         screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
-        //screen = new Screen(getWidth(), getHeight());
 
-        Player player;    
-        player = new Player(keys,Map.currentMap.GetRandomFloorTile());
-        player.currentMap=Map.currentMap;
-        Map.player=player;
-        Map.currentMap.entities.add(player);
-        
-                
         long timeSinceStart = System.nanoTime() / 1000;
         long oldTimeSinceStart = 0;
         long deltaTime = 1;
-        Map.currentMap.draw(screen);
-       
-        
-        //currentMap.save();
+
         while (running) {
             // Do it
             BufferStrategy bs = getBufferStrategy();
@@ -143,9 +129,6 @@ public class MainComponent extends Canvas implements Runnable {
                 createBufferStrategy(3);
                 continue;
             }
-
-            framesSinceLastTick++;
-            //tick();
 
             Graphics g = bs.getDrawGraphics();
             render(g);
@@ -160,92 +143,16 @@ public class MainComponent extends Canvas implements Runnable {
             if (bs != null) {
                 bs.show();
             }
-
-            if (keys.keys[KeyEvent.VK_ESCAPE].pressed) {
-                // Pause? will be implemented as its own menu, can be drawn over the game menu
-            	if(MENU.GetCurrentGameState() == STATE.Game)
-            		Map.currentMap.reDraw();
-            }
         }
-    }
+    } // run();
     
-    public void render(Graphics g) {
-    	//Graphics2D g2=(Graphics2D)g;
-        //g.setColor(Color.WHITE);
-        //g.fillRect(0, 0, getWidth(), getHeight());
-        if(MENU.GetCurrentGameState() == STATE.Game)
-        {
-        	Map.currentMap.draw(screen);
-        }
-        else if(MENU.GetCurrentGameState() == STATE.Exit)
-        {
-        	stop();
-        	GAME.dispose();
-        }
-        else
-        {
-        	MENU.draw(screen);
-        }
+    public void render(Graphics g) {        
+        manager.drawCurrentMenu(screen);
+        
         g.drawImage(screen.image, 0, 0, null);
-    }
+    } // render(Graphics);
     
     public void tick() {
-	//player.Tick();
-	//player.Hurt(1);
-	if (framesSinceLastTick > 10) {
-	   framesSinceLastTick = 0;
-	   
-	   
-	   Map.player.Tick();
-	   Iterator<Entity> itr = Map.currentMap.entities.iterator();
-	   while (itr.hasNext())
-	   {
-	   	Entity e=itr.next();
-	   	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
-	   		if (Map.player.Attack(e)<1)
-	   		{
-	   			itr.remove();
-	   			++Map.player.score;
-	   		}
-	   }
-	   
-	   //player.Tick();
-	   for (Entity e : Map.currentMap.entities) {
-	   	if (e!=Map.player)
-	   		e.Tick();
-	   }
-	   for (Entity e: Map.currentMap.entities)
-	   {
-	   	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
-	   			e.Attack(Map.player);
-	   
-	   }
-	   itr = Map.currentMap.entities.iterator();
-	   while (itr.hasNext())
-	   {
-	   	try{
-	       	Mob e=(Mob)itr.next();
-	       	if(e.HP<=0&&e!=Map.player)
-	       	{
-	       		itr.remove();
-	       		++Map.player.score;
-	       	}
-	   	}
-	   	catch(Exception ex){}
-	   }
-	   /*
-	   // TODO: This loop needs to be redone becasue of removing the entities...
-	   for (int i = 0; i < Map.currentMap.entities.size(); ++i) {
-	       for (int j = 0; j < Map.currentMap.entities.size(); ++j) {
-	           if (i != j && Map.currentMap.entities.get(i).getLocation().equals(Map.currentMap.entities.get(j).getLocation())) {
-	               if (Map.currentMap.entities.get(i).Attack(Map.currentMap.entities.get(j)) < 1) {
-	               	Map.currentMap.entities.remove(j);
-	               	++Map.currentMap.player.score;
-	               }
-	           }
-	       }
-	   }
-	    */
-	}
-    }
-}
+        manager.tickCurrentMenu();
+    } // tick();
+} // MainComponent;

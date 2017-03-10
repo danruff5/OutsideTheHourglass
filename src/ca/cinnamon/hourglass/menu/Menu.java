@@ -17,101 +17,100 @@ import ca.cinnamon.hourglass.screen.Screen;
 //draw for execution
 //tick for logic updates
 public abstract class Menu implements MouseListener, MouseMotionListener {
-	
-private List<MenuStateListener> listeners;
 
-public MenuType ID;
+    private List<MenuStateListener> listeners;
 
-public boolean isEnabled = false;
+    public MenuType ID;
+
+    public boolean isEnabled = false;
 
 //Dictionary of components drawn on menu, !!!eventually should be a generic component!!!
-public Map<String,MenuButton> ComponentMap = new HashMap<String,MenuButton>();
-	
-public abstract void init(MenuType id);
-	
-public abstract void draw(Screen screen);
+    public Map<String, MenuButton> ComponentMap = new HashMap<String, MenuButton>();
 
-public abstract void tick();
+    public abstract void init(MenuType id);
 
-public void addListener(MenuStateListener listener) {
-	if (listeners == null) {
-		listeners = new ArrayList<MenuStateListener>();
-	}
-	listeners.add(listener);
-}
+    public abstract void draw(Screen screen);
 
-public void closingMenu(){
-	if (listeners != null) {
-		for (MenuStateListener listener : listeners) {
-			listener.closing(this);
-		}
-	}
-}
+    public abstract void tick();
 
-public void stateChanged() {
-	if (listeners != null) {
-		for (MenuStateListener listener : listeners) {
-			listener.stateChanged(this);
-		}
-	}
-}
+    public void addListener(MenuStateListener listener) {
+        if (listeners == null) {
+            listeners = new ArrayList<MenuStateListener>();
+        }
+        listeners.add(listener);
+    }
 
-/*
+    public void closingMenu() {
+        if (listeners != null) {
+            for (MenuStateListener listener : listeners) {
+                listener.closing(this);
+            }
+        }
+    }
+
+    public void stateChanged() {
+        if (listeners != null) {
+            for (MenuStateListener listener : listeners) {
+                listener.stateChanged(this);
+            }
+        }
+    }
+
+    /*
  * 
  * EVENT HANDLING (for everything in the componentMap
  * 
- */
+     */
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        ComponentMap.forEach((key, value) -> {
+            value.mouseClicked(e);
+        });
+    }
 
-@Override
-public void mouseClicked(MouseEvent e) {
-	ComponentMap.forEach((key,value) -> {
-		value.mouseClicked(e);
-	});
-}
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        ComponentMap.forEach((key, value) -> {
+            value.mouseEntered(e);
+        });
+    }
 
-@Override
-public void mouseEntered(MouseEvent e) {
-	// TODO Auto-generated method stub
-	ComponentMap.forEach((key,value) -> {
-		value.mouseEntered(e);
-	});
-}
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        ComponentMap.forEach((key, value) -> {
+            value.mouseExited(e);
+        });
+    }
 
-@Override
-public void mouseExited(MouseEvent e) {
-	// TODO Auto-generated method stub
-	ComponentMap.forEach((key,value) -> {
-		value.mouseExited(e);
-	});
-}
+    @Override
+    public void mousePressed(MouseEvent e) {
+        ComponentMap.forEach((key, value) -> {
+            value.mousePressed(e);
+        });
+    }
 
-@Override
-public void mousePressed(MouseEvent e) {
-	ComponentMap.forEach((key,value) -> {
-		value.mousePressed(e);
-	});
-}
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        ComponentMap.forEach((key, value) -> {
+            value.mouseReleased(e);
+        });
+    }
 
-@Override
-public void mouseReleased(MouseEvent e) {
-	ComponentMap.forEach((key,value) -> {
-		value.mouseReleased(e);
-	});
-}
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        // TODO Auto-generated method stub
+        ComponentMap.forEach((key, value) -> {
+            value.mouseDragged(e);
+        });
+    }
 
-@Override
-public void mouseDragged(MouseEvent e) {
-	// TODO Auto-generated method stub
-	ComponentMap.forEach((key,value) -> {
-		value.mouseDragged(e);
-	});
-}
-
-@Override
-public void mouseMoved(MouseEvent e) {
-	// TODO Auto-generated method stub
-	ComponentMap.forEach((key,value) -> {
-		value.mouseMoved(e);
-	});
-}
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        // TODO Auto-generated method stub
+        ComponentMap.forEach((key, value) -> {
+            value.mouseMoved(e);
+        });
+    }
 }

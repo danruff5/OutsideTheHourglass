@@ -1,64 +1,87 @@
 package ca.cinnamon.hourglass.menu;
 
+import ca.cinnamon.hourglass.gui.MainComponent;
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.cinnamon.hourglass.screen.Screen;
 
-public class MenuManager {
+public class MenuManager implements MenuStateListener {
+    
+    private int framesSinceLastTick = 0;
 
-	public static enum MenuType{
-		Game,
-		Main,
-		Inventory
-	}
-	
-	public static List<Menu> availableMenus;
+    @Override
+    public void stateChanged(Menu menu) {
+        //if (State is Game)
+        LoadMenuAt(1);
+    }
 
-	private int currentMenu = -1;
+    @Override
+    public void closing(Menu menu) {
+    }
 
-public MenuManager(){
-	//on initial load 
-	
-	//create a menu
-	//register it with a a listener so that we can handle menu closing or state changed
-};
+    public static enum MenuType {
+        Game,
+        Main,
+        Inventory
+    }
 
-public int CurrentMenuIndex(){
-	return currentMenu;
-}
-public boolean LoadMenuAt(int index){
-	if(index < availableMenus.size() && index > -1)
-	{
-		currentMenu = index;
-		return true;
-	}
-	return false;
-}
+    private MainComponent mainComp;
+    public static List<Menu> availableMenus;
 
-public void addMenu(Menu m){
-	if(availableMenus == null)
-		availableMenus = new ArrayList<Menu>();
-	availableMenus.add(m);
-}
+    private int currentMenu = -1;
 
-public void drawCurrentMenu(Screen screen){
-	//Will only draw a menu if it is enabled
-	//Potentially we can draw menu's on top of eachother???
-	if(currentMenu != -1)
-	if(availableMenus.get(currentMenu).isEnabled)
-	{
-		availableMenus.get(currentMenu).draw(screen);
-	}
-}
+    public MenuManager(MainComponent mainComp) {
+        this.mainComp = mainComp;
+        //on initial load 
 
-public void tickCurrentMenu(){
-	if(currentMenu != -1)
-	if(availableMenus.get(currentMenu).isEnabled)
-	{
-		availableMenus.get(currentMenu).tick();
-	}
-}
-	
-	
+        //create a menu
+        //register it with a a listener so that we can handle menu closing or state changed
+    }
+
+    public int CurrentMenuIndex() {
+        return currentMenu;
+    }
+
+    public boolean LoadMenuAt(int index) {
+        if (index < availableMenus.size() && index > -1) {
+            currentMenu = index;
+            availableMenus.get(currentMenu).isEnabled = true;
+            return true;
+        }
+        return false;
+    }
+
+    public void addMenu(Menu m) {
+        if (availableMenus == null) {
+            availableMenus = new ArrayList<Menu>();
+        }
+        availableMenus.add(m);
+        mainComp.addMouseListener(m);
+        mainComp.addMouseMotionListener(m);
+        m.addListener(this);
+    }
+
+    public void drawCurrentMenu(Screen screen) {
+        //Will only draw a menu if it is enabled
+        //Potentially we can draw menu's on top of eachother???
+        if (currentMenu != -1) {
+            if (availableMenus.get(currentMenu).isEnabled) {
+                availableMenus.get(currentMenu).draw(screen);
+            }
+        }
+        framesSinceLastTick++;
+    }
+
+    public void tickCurrentMenu() {
+        if (framesSinceLastTick > 10) {
+            framesSinceLastTick = 0;
+            if (currentMenu != -1) {
+                if (availableMenus.get(currentMenu).isEnabled) {
+                    availableMenus.get(currentMenu).tick();
+                }
+            }
+        }
+    }
+
 }
