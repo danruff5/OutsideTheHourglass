@@ -45,8 +45,8 @@ public class GameMenu extends Menu {
 
     @Override
     public void tick() {
-        player.Tick();
-        player.Hurt(1);
+        
+        
 
         Map.player.Tick();
         Iterator<Entity> itr = Map.currentMap.entities.iterator();
