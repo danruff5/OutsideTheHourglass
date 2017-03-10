@@ -18,7 +18,9 @@ public enum SoundPlayer {
 			STEP("./Sounds/stepstone_1.wav"),
 			SWORD("./Sounds/sword sound.wav"),
 			MONSTER("./Sounds/monster.wav"),
-			WALL("./Sounds/metal.wav");
+			WALL("./Sounds/metal.wav"),
+			BUTTON("./Sounds/button.wav");
+	//Button click sound from https://www.soundjay.com/button-sounds-2.html
 
     public static enum Volume {
         MUTE, LOW, MEDIUM, HIGH;
