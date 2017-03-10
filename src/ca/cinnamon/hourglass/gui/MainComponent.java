@@ -200,6 +200,126 @@ public class MainComponent extends Canvas implements Runnable {
 	   
 	   Map.player.Tick();
 	   Iterator<Entity> itr = Map.currentMap.entities.iterator();
+
+     while (itr.hasNext())
+     {
+     	Entity e=itr.next();
+     	//checks if player is "attacking", and has an entity in range
+       if (Map.player.State() == 1 && Map.player.HitDetection(e) &&!e.equals(Map.player))
+       {
+       		if (Map.player.Attack(e)<1)
+       		{
+       			Map.player.score += e.Death();
+       			itr.remove();
+       		}
+       }
+     }
+     //Puts player back in 'idle' state
+     Map.player.ResetState();
+	   
+	   //player.Tick();
+	   for (Entity e : Map.currentMap.entities) {
+	   	if (e!=Map.player)
+	   		e.Tick();
+	   }
+	   for (Entity e: Map.currentMap.entities)
+	   {
+	   	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
+	   			e.Attack(Map.player);
+	   
+	   }
+	   itr = Map.currentMap.entities.iterator();
+	   while (itr.hasNext())
+	   {
+	   	try{
+	       	Mob e=(Mob)itr.next();
+	       	if(e.HP<=0&&e!=Map.player)
+	       	{
+	       		itr.remove();
+	       		++Map.player.score;
+	       	}
+	   	}
+	   	catch(Exception ex){}
+	   }
+	   /*
+	   // TODO: This loop needs to be redone becasue of removing the entities...
+	   for (int i = 0; i < Map.currentMap.entities.size(); ++i) {
+	       for (int j = 0; j < Map.currentMap.entities.size(); ++j) {
+	           if (i != j && Map.currentMap.entities.get(i).getLocation().equals(Map.currentMap.entities.get(j).getLocation())) {
+	               if (Map.currentMap.entities.get(i).Attack(Map.currentMap.entities.get(j)) < 1) {
+	               	Map.currentMap.entities.remove(j);
+	               	++Map.currentMap.player.score;
+	               }
+	           }
+	       }
+	   }
+	    */
+	}
+	//player.Tick();
+	//player.Hurt(1);
+	if (framesSinceLastTick > 10) {
+	   framesSinceLastTick = 0;
+	   
+	   
+	   Map.player.Tick();
+	   Iterator<Entity> itr = Map.currentMap.entities.iterator();
+	   while (itr.hasNext())
+	   {
+	   	Entity e=itr.next();
+	   	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
+	   		if (Map.player.Attack(e)<1)
+	   		{
+	   			itr.remove();
+	   			++Map.player.score;
+	   		}
+	   }
+	   
+	   //player.Tick();
+	   for (Entity e : Map.currentMap.entities) {
+	   	if (e!=Map.player)
+	   		e.Tick();
+	   }
+	   for (Entity e: Map.currentMap.entities)
+	   {
+	   	if(e.getLocation().equals(Map.player.getLocation())&&!e.equals(Map.player))
+	   			e.Attack(Map.player);
+	   
+	   }
+	   itr = Map.currentMap.entities.iterator();
+	   while (itr.hasNext())
+	   {
+	   	try{
+	       	Mob e=(Mob)itr.next();
+	       	if(e.HP<=0&&e!=Map.player)
+	       	{
+	       		itr.remove();
+	       		++Map.player.score;
+	       	}
+	   	}
+	   	catch(Exception ex){}
+	   }
+	   /*
+	   // TODO: This loop needs to be redone becasue of removing the entities...
+	   for (int i = 0; i < Map.currentMap.entities.size(); ++i) {
+	       for (int j = 0; j < Map.currentMap.entities.size(); ++j) {
+	           if (i != j && Map.currentMap.entities.get(i).getLocation().equals(Map.currentMap.entities.get(j).getLocation())) {
+	               if (Map.currentMap.entities.get(i).Attack(Map.currentMap.entities.get(j)) < 1) {
+	               	Map.currentMap.entities.remove(j);
+	               	++Map.currentMap.player.score;
+	               }
+	           }
+	       }
+	   }
+	    */
+	}
+	//player.Tick();
+	//player.Hurt(1);
+	if (framesSinceLastTick > 10) {
+	   framesSinceLastTick = 0;
+	   
+	   
+	   Map.player.Tick();
+	   Iterator<Entity> itr = Map.currentMap.entities.iterator();
 	   while (itr.hasNext())
 	   {
 	   	Entity e=itr.next();

@@ -21,9 +21,11 @@ public abstract class Mob implements Entity
 {
 	public int HP = 1;
 	public int ATK = 1;
+	public int ATK_RANGE = 1;
+	public int POINT_VALUE;
 	public Point loc = new Point(0, 0);
 	public Map currentMap;
-
+	
 	public Mob(Point spawn)
 	{
 		super();
@@ -77,7 +79,7 @@ public abstract class Mob implements Entity
 
 	public int Attack(Entity E)
 	{
-		SoundPlayer.SWORD.play();
+		SoundPlayer.MONSTER.play();
 		return E.Hurt(ATK);
 	}
 
@@ -86,10 +88,16 @@ public abstract class Mob implements Entity
 		HP -= DAM;
 		return HP;
 	}
-
+	
 	public Point getLocation()
 	{
 		return loc;
+	}
+	
+	public int Death()
+	{
+		//could also add item drop stuff here? idk
+		return POINT_VALUE;
 	}
 
 }

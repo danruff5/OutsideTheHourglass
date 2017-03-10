@@ -14,7 +14,7 @@ public class Wolf extends Mob {
 	public Wolf(Point spawn) {
 		super(spawn);
         this.HP = 1;//health points
-        
+        this.POINT_VALUE = 200;
 	}
 
     public void Tick() {
@@ -30,5 +30,4 @@ public class Wolf extends Mob {
         screen.blit(sprites.add("./Pictures/crawl-tiles Oct-5-2010/dc-mon/animals/warg.png"), this.loc.x * Map.tileWidth, (this.loc.y) * Map.tileWidth, 32, 32);
 
     }
-
 }

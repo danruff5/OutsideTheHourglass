@@ -35,228 +35,279 @@ import com.sun.glass.events.KeyEvent;
  * @author Daniel
  */
 
+public class Player extends Mob
+{
 
-
-public class Player extends Mob {
-	
 	private Graphics graphicsBrush;
 	private BufferedImage heartImage;
 	private BufferedImage heartDeadImage;
-	private int heartNum = 5; //temp num
+	private int heartNum = 5; // temp num
 	private int heartDeadNum = 0;
-    private Keys keys;
-    private boolean isInventory = false;
-    public int score=0;
-    private IWeapon weapon;
-    private IWearable[] armour;
-    private PlayerInventory inventory;
-    
-    public int speedLimit=150;
-    public Player(Keys keys,Point spawn) {
-        super(spawn);
-        this.keys = keys;
-        this.ATK=2;
-        this.HP = 5; // same as heartNum;
-        
-        weapon = new Sword();
-        armour = new IWearable[4];
-        armour[0] = new Helmet();
-        armour[1] = new Chest();
-        armour[2] = new Leggings();
-        armour[3] = new Boots();
-        
-        inventory = new PlayerInventory();
-    }
-    
-    public void Tick() {
-        if (keys.keys[KeyEvent.VK_UP].pressed) {
-            // Player Move Up.
-            SoundPlayer.STEP.play();
-            this.moveUp(currentMap.tiles[loc.x][loc.y-1]);
-        }
-        if (keys.keys[KeyEvent.VK_RIGHT].pressed) {
-            // Player Move Right.
-            SoundPlayer.STEP.play();
-            this.moveRight(currentMap.tiles[loc.x+1][loc.y]);
-            //resurrectHeart();
-        }
-        if (keys.keys[KeyEvent.VK_DOWN].pressed) {
-            // Player Move Down.
-            SoundPlayer.STEP.play();
-            this.moveDown(currentMap.tiles[loc.x][loc.y+1]);
-        }
-        if (keys.keys[KeyEvent.VK_LEFT].pressed) {
-            // Player Move Left.
-            SoundPlayer.STEP.play();
-            this.moveLeft(currentMap.tiles[loc.x-1][loc.y]);
-            //removeHeart();
-        }
-        //if (keys.keys[KeyEvent.VK_5].pressed) {
-        	
-        //}
-        if (keys.keys[KeyEvent.VK_E].pressed) {
-            isInventory = !isInventory;
-        }
-    }
-    
-    @Override
-    public void moveUp(Tile T)
-  	{
-  		if (!T.collide(this))
-  		{
-  			currentMap.changedTile.add(new Point(this.loc));
-  			this.loc.y -= 1;
-  		}
-  		else
-  		{
-  			SoundPlayer.WALL.play();
-  		}
-  	}
+	private Keys keys;
+	private boolean isInventory = false;
+	public int score = 0;
+	private IWeapon weapon;
+	private IWearable[] armour;
+	private PlayerInventory inventory;
+	private int playerState = 0;
+	public int speedLimit = 150;
 
-    @Override
-  	public void moveDown(Tile T)
-  	{
-  		if (!T.collide(this))
-  		{
-  			currentMap.changedTile.add(new Point(this.loc));
-  			this.loc.y += 1;
-  		}
-  		else
-  		{
-  			SoundPlayer.WALL.play();
-  		}
-  	}
+	public Player(Keys keys, Point spawn)
+	{
+		super(spawn);
+		this.keys = keys;
+		this.ATK = 2;
+		this.HP = 5; // same as heartNum;
 
-    @Override
-  	public void moveRight(Tile T)
-  	{
-  		if (!T.collide(this))
-  		{
-  			currentMap.changedTile.add(new Point(this.loc));
-  			this.loc.x += 1;
-  		}
-  		else
-  		{
-  			SoundPlayer.WALL.play();
-  		}
-  	}
-  	
-    @Override
-  	public void moveLeft(Tile T)
-  	{
-  		if (!T.collide(this))
-  		{
-  			currentMap.changedTile.add(new Point(this.loc));
-  			this.loc.x -= 1;
-  		}
-  		else
-  		{
-  			SoundPlayer.WALL.play();
-  		}
-  	}
-    
-    @Override
-  	public int Attack(Entity E)
-  	{
-  		SoundPlayer.SWORD.play();
-  		return E.Hurt(weapon.Damage());
-  	}
-  	
-    
-    public void removeHeart(int hearts)
-    {
-    	for (int i=0;i<hearts;++i)
-    	if(heartNum>0)
-    	{
-    		heartNum -= 1;
-    		heartDeadNum += 1;
-    	}
-    }
-    
-    public void resurrectHeart(int hearts)
-    {
-    	for (int i=0;i<hearts;++i)
-    	if(heartNum<5)
-    	{
-    		heartNum += 1;
-    		heartDeadNum -= 1;
-    	}
-    }
-    
-    @Override
-    public void Draw(Screen screen) {
-    	screen.blit(sprites.add("./Pictures/wizzard.bmp"), this.loc.x*Map.tileWidth, (this.loc.y-0)*Map.tileWidth,Map.tileWidth,Map.tileHeight);
-    	graphicsBrush = screen.image.getGraphics();
-    	if(heartImage ==null)
-    	{try{
-    		heartImage = ImageIO.read(new File(System.getProperty("user.dir") + "\\Pictures\\heart.png"));
-    		}
-    		catch(IOException e){
-    			e.printStackTrace();
-    			}
-    	}
-    	//heartDeadImage
-    	if(heartDeadImage ==null)
-    	{try{
-    		heartDeadImage = ImageIO.read(new File(System.getProperty("user.dir") + "\\Pictures\\heart_dead.png"));
-    		}
-    		catch(IOException e){
-    			e.printStackTrace();
-    			}
-    	}
-    	for(int i = 0 ; i <heartNum; ++i)
-    	{
-    		graphicsBrush.drawImage(heartImage, 1000 + i*60, 10, null);
-    	}
-    	for(int i = 0 ; i <heartDeadNum; ++i)
-    	{
-    		graphicsBrush.drawImage(heartDeadImage, 1000 + (i+heartNum)*60, 10, null);
-    	}
-    	String sScore=Integer.toString(score);
-    	int scoreOffset=0;
-    	try{
-    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'S'-48)+".png"), scoreOffset,0,14,16);
-	    	scoreOffset+=16;
-    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'C'-48)+".png"), scoreOffset,0,14,16);
-	    	scoreOffset+=16;
+		weapon = new Sword();
+		armour = new IWearable[4];
+		armour[0] = new Helmet();
+		armour[1] = new Chest();
+		armour[2] = new Leggings();
+		armour[3] = new Boots();
 
-    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'O'-48)+".png"), scoreOffset,0,14,16);
-	    	scoreOffset+=16;
+		inventory = new PlayerInventory();
+	}
 
-    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'R'-48)+".png"), scoreOffset,0,14,16);
-	    	scoreOffset+=16;
-	    	screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+'E'-48)+".png"), scoreOffset,0,14,16);
-	    	scoreOffset+=16;
+	public void Tick()
+	{
+		if (keys.keys[KeyEvent.VK_UP].pressed)
+		{
+			// Player Move Up.
+			SoundPlayer.STEP.play();
+			this.moveUp(currentMap.tiles[loc.x][loc.y - 1]);
+		}
+		if (keys.keys[KeyEvent.VK_RIGHT].pressed)
+		{
+			// Player Move Right.
+			SoundPlayer.STEP.play();
+			this.moveRight(currentMap.tiles[loc.x + 1][loc.y]);
+			// resurrectHeart();
+		}
+		if (keys.keys[KeyEvent.VK_DOWN].pressed)
+		{
+			// Player Move Down.
+			SoundPlayer.STEP.play();
+			this.moveDown(currentMap.tiles[loc.x][loc.y + 1]);
+		}
+		if (keys.keys[KeyEvent.VK_LEFT].pressed)
+		{
+			// Player Move Left.
+			SoundPlayer.STEP.play();
+			this.moveLeft(currentMap.tiles[loc.x - 1][loc.y]);
+			// removeHeart();
+		}
+		if (keys.keys[KeyEvent.VK_SPACE].pressed)
+		{
+			//player is in an "attacking" state
+			this.playerState = 1;
+		}
+		if (keys.keys[KeyEvent.VK_E].pressed)
+		{
+			isInventory = !isInventory;
+		}
+	}
 
-    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+"26"+".png"), scoreOffset,0,8,16);
-	    	scoreOffset+=16;
-	    	scoreOffset+=16;
+	@Override
+	public void moveUp(Tile T)
+	{
+		if (!T.collide(this))
+		{
+			currentMap.changedTile.add(new Point(this.loc));
+			this.loc.y -= 1;
+		}
+		else
+		{
+			SoundPlayer.WALL.play();
+		}
+	}
 
-    	}
-    	catch (Exception ex){}
-    	for (char c : sScore.toCharArray()){
-    		try{
-    		screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/"+(16+c-48)+".png"), scoreOffset,0,14,16);
-    		}
-    		catch (Exception ex){}
-	    	scoreOffset+=16;
-    	}
-    	
-        
-        if (isInventory)
-            inventory.DrawMenu(screen);
-    }
-    @Override 
-    public int Hurt(int DAM){
-        double armourFactor = 0;
-        for (IWearable a : armour)
-            armourFactor += a.Protect();
-        
-        DAM = (int)Math.round(DAM - (DAM * (armourFactor / 100.0)));
-        
-    	HP-=DAM;
-    	this.removeHeart(DAM);
-    	return HP;
-    }
+	@Override
+	public void moveDown(Tile T)
+	{
+		if (!T.collide(this))
+		{
+			currentMap.changedTile.add(new Point(this.loc));
+			this.loc.y += 1;
+		}
+		else
+		{
+			SoundPlayer.WALL.play();
+		}
+	}
+
+	@Override
+	public void moveRight(Tile T)
+	{
+		if (!T.collide(this))
+		{
+			currentMap.changedTile.add(new Point(this.loc));
+			this.loc.x += 1;
+		}
+		else
+		{
+			SoundPlayer.WALL.play();
+		}
+	}
+
+	@Override
+	public void moveLeft(Tile T)
+	{
+		if (!T.collide(this))
+		{
+			currentMap.changedTile.add(new Point(this.loc));
+			this.loc.x -= 1;
+		}
+		else
+		{
+			SoundPlayer.WALL.play();
+		}
+	}
+
+	@Override
+	public int Attack(Entity E)
+	{
+		SoundPlayer.SWORD.play();
+		return E.Hurt(weapon.Damage());
+	}
+
+	public boolean HitDetection(Entity i)
+	{
+		//System.out.println(this.getLocation() + " vs " + i.getLocation());
+		Point loc = this.getLocation();
+		Point iLoc = i.getLocation();
+		return (loc.x - ATK_RANGE == iLoc.x && loc.y == iLoc.y) //the player is right of entity
+		|| (loc.x + ATK_RANGE == iLoc.x && loc.y == iLoc.y) //the player is left of entity
+		|| (loc.x == iLoc.x && loc.y + ATK_RANGE == iLoc.y) //the player is below entity
+		|| (loc.x == iLoc.x && loc.y - ATK_RANGE == iLoc.y) //the player is above entity
+		|| (loc.x == iLoc.x && loc.y == iLoc.y); //the player is on top of the entity
+	}
+	
+	public void ResetState()
+	{
+		this.playerState = 0;
+	}
+	
+	public int State()
+	{
+		return playerState;
+	}
+	
+	public void removeHeart(int hearts)
+	{
+		for (int i = 0; i < hearts; ++i)
+			if (heartNum > 0)
+			{
+				heartNum -= 1;
+				heartDeadNum += 1;
+			}
+	}
+
+	public void resurrectHeart(int hearts)
+	{
+		for (int i = 0; i < hearts; ++i)
+			if (heartNum < 5)
+			{
+				heartNum += 1;
+				heartDeadNum -= 1;
+			}
+	}
+
+	@Override
+	public void Draw(Screen screen)
+	{
+		screen.blit(sprites.add("./Pictures/wizzard.bmp"), this.loc.x * Map.tileWidth, (this.loc.y - 0) * Map.tileWidth,
+				Map.tileWidth, Map.tileHeight);
+		graphicsBrush = screen.image.getGraphics();
+		if (heartImage == null)
+		{
+			try
+			{
+				heartImage = ImageIO.read(new File(System.getProperty("user.dir") + "\\Pictures\\heart.png"));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		// heartDeadImage
+		if (heartDeadImage == null)
+		{
+			try
+			{
+				heartDeadImage = ImageIO.read(new File(System.getProperty("user.dir") + "\\Pictures\\heart_dead.png"));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		for (int i = 0; i < heartNum; ++i)
+		{
+			graphicsBrush.drawImage(heartImage, 1000 + i * 60, 10, null);
+		}
+		for (int i = 0; i < heartDeadNum; ++i)
+		{
+			graphicsBrush.drawImage(heartDeadImage, 1000 + (i + heartNum) * 60, 10, null);
+		}
+		String sScore = Integer.toString(score);
+		int scoreOffset = 0;
+		try
+		{
+			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'S' - 48) + ".png"),
+					scoreOffset, 0, 14, 16);
+			scoreOffset += 16;
+			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'C' - 48) + ".png"),
+					scoreOffset, 0, 14, 16);
+			scoreOffset += 16;
+
+			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'O' - 48) + ".png"),
+					scoreOffset, 0, 14, 16);
+			scoreOffset += 16;
+
+			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'R' - 48) + ".png"),
+					scoreOffset, 0, 14, 16);
+			scoreOffset += 16;
+			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'E' - 48) + ".png"),
+					scoreOffset, 0, 14, 16);
+			scoreOffset += 16;
+
+			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + "26" + ".png"), scoreOffset, 0, 8,
+					16);
+			scoreOffset += 16;
+			scoreOffset += 16;
+
+		}
+		catch (Exception ex)
+		{
+		}
+		for (char c : sScore.toCharArray())
+		{
+			try
+			{
+				screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + c - 48) + ".png"),
+						scoreOffset, 0, 14, 16);
+			}
+			catch (Exception ex)
+			{
+			}
+			scoreOffset += 16;
+		}
+
+		if (isInventory) inventory.DrawMenu(screen);
+	}
+
+	@Override
+	public int Hurt(int DAM)
+	{
+		double armourFactor = 0;
+		for (IWearable a : armour)
+			armourFactor += a.Protect();
+
+		DAM = (int) Math.round(DAM - (DAM * (armourFactor / 100.0)));
+
+		HP -= DAM;
+		this.removeHeart(DAM);
+		return HP;
+	}
 }
-
