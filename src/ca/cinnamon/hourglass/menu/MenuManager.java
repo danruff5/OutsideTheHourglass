@@ -12,9 +12,21 @@ public class MenuManager implements MenuStateListener {
 
     @Override
     public void stateChanged(Menu menu) {
-        //if (State is Game)
-        LoadMenuAt(1);
-    }
+        // menu => The menu that called the state change.
+        switch (menu.ID) {
+            case Main:
+                LoadMenuAt(1);
+                break;
+            case Game:
+                LoadMenuAt(2);
+                break;
+            case Inventory:
+                LoadMenuAt(1);
+                break;
+            default:
+                break;
+        }
+    } // stateChanged(Menu);
 
     @Override
     public void closing(Menu menu) {
@@ -45,8 +57,12 @@ public class MenuManager implements MenuStateListener {
 
     public boolean LoadMenuAt(int index) {
         if (index < availableMenus.size() && index > -1) {
+            for (Menu m : availableMenus)
+                m.isEnabled = false;
+            
             currentMenu = index;
             availableMenus.get(currentMenu).isEnabled = true;
+            
             return true;
         }
         return false;

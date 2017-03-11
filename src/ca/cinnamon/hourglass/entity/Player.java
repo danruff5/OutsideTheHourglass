@@ -14,6 +14,7 @@ import ca.cinnamon.hourglass.item.IWeapon;
 import ca.cinnamon.hourglass.item.IWearable;
 import ca.cinnamon.hourglass.item.Leggings;
 import ca.cinnamon.hourglass.item.PlayerInventory;
+import ca.cinnamon.hourglass.item.Potion;
 import ca.cinnamon.hourglass.item.Sword;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.Tile;
@@ -44,11 +45,9 @@ public class Player extends Mob
 	private int heartNum = 5; // temp num
 	private int heartDeadNum = 0;
 	private Keys keys;
-	private boolean isInventory = false;
 	public int score = 0;
-	private IWeapon weapon;
-	private IWearable[] armour;
-	private PlayerInventory inventory;
+	
+	public PlayerInventory inventory;
 	private int playerState = 0;
 	public int speedLimit = 150;
 
@@ -59,14 +58,16 @@ public class Player extends Mob
 		this.ATK = 2;
 		this.HP = 5; // same as heartNum;
 
-		weapon = new Sword();
-		armour = new IWearable[4];
-		armour[0] = new Helmet();
-		armour[1] = new Chest();
-		armour[2] = new Leggings();
-		armour[3] = new Boots();
-
-		inventory = new PlayerInventory();
+                inventory = new PlayerInventory();
+                inventory.AddItem(new Potion(this));
+                inventory.AddItem(new Potion(this));
+                
+		inventory.weapon = new Sword();
+		inventory.armour = new IWearable[4];
+		inventory.armour[0] = new Helmet();
+		inventory.armour[1] = new Chest();
+		inventory.armour[2] = new Leggings();
+		inventory.armour[3] = new Boots();
 	}
 
 	public void Tick()
@@ -101,10 +102,6 @@ public class Player extends Mob
 		{
 			//player is in an "attacking" state
 			this.playerState = 1;
-		}
-		if (keys.keys[KeyEvent.VK_E].pressed)
-		{
-			isInventory = !isInventory;
 		}
 	}
 
@@ -168,7 +165,7 @@ public class Player extends Mob
 	public int Attack(Entity E)
 	{
 		SoundPlayer.SWORD.play();
-		return E.Hurt(weapon.Damage());
+		return E.Hurt(inventory.weapon.Damage());
 	}
 
 	public boolean HitDetection(Entity i)
@@ -293,15 +290,13 @@ public class Player extends Mob
 			}
 			scoreOffset += 16;
 		}
-
-		if (isInventory) inventory.DrawMenu(screen);
 	}
 
 	@Override
 	public int Hurt(int DAM)
 	{
 		double armourFactor = 0;
-		for (IWearable a : armour)
+		for (IWearable a : inventory.armour)
 			armourFactor += a.Protect();
 
 		DAM = (int) Math.round(DAM - (DAM * (armourFactor / 100.0)));

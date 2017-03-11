@@ -10,7 +10,9 @@ import ca.cinnamon.hourglass.entity.Player;
 import ca.cinnamon.hourglass.entity.mob.Mob;
 import ca.cinnamon.hourglass.gui.Keys;
 import ca.cinnamon.hourglass.map.Map;
+import ca.cinnamon.hourglass.menu.MenuManager.MenuType;
 import ca.cinnamon.hourglass.screen.Screen;
+import java.awt.event.KeyEvent;
 import java.util.Iterator;
 
 /**
@@ -20,11 +22,18 @@ import java.util.Iterator;
 public class GameMenu extends Menu
 {
 
-	private Player player;
+	public Player player;
 	private Keys keys;
+    private STATE GameState;
+        
+        
+        public static enum STATE {
+            inventory, game
+        } // enum STATE;
 
 	public GameMenu(int screen_width, int screen_height, Keys keys)
 	{
+            ID = MenuType.Game;
 		this.keys = keys;
 
 		// init
@@ -49,6 +58,11 @@ public class GameMenu extends Menu
 	@Override
 	public void tick()
 	{
+            
+            if (this.keys.keys[KeyEvent.VK_E].pressed) {
+                SetCurrentGameState(STATE.inventory);
+                return;
+            }
 
 		Map.player.Tick();
 		Iterator<Entity> itr = Map.currentMap.entities.iterator();
@@ -94,6 +108,19 @@ public class GameMenu extends Menu
 			{
 			}
 		}
+                
+                
+                
 	} // tick();
+        
+    public STATE GetCurrentGameState() {
+        return this.GameState;
+    }
+
+    public void SetCurrentGameState(STATE s) {
+        this.GameState = s;
+        //Create a StateChangedEvent here and throw it back to the main
+        stateChanged();
+    }
 
 } // GameMenu;

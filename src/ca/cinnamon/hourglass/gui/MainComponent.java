@@ -10,6 +10,7 @@ import ca.cinnamon.hourglass.entity.mob.*;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.*;
 import ca.cinnamon.hourglass.menu.GameMenu;
+import ca.cinnamon.hourglass.menu.InventoryMenu;
 import ca.cinnamon.hourglass.menu.MainMenu;
 import ca.cinnamon.hourglass.menu.MainMenu.STATE;
 import ca.cinnamon.hourglass.menu.MenuManager;
@@ -104,7 +105,9 @@ public class MainComponent extends Canvas implements Runnable {
         
         manager = new MenuManager(this);
         manager.addMenu(new MainMenu(GAME_WIDTH, GAME_HEIGHT));
-        manager.addMenu(new GameMenu(GAME_WIDTH, GAME_HEIGHT, keys));
+        GameMenu game = new GameMenu(GAME_WIDTH, GAME_HEIGHT, keys);
+        manager.addMenu(game);
+        manager.addMenu(new InventoryMenu(keys, game.player.inventory, GAME_WIDTH, GAME_HEIGHT));
         manager.LoadMenuAt(0);
         
         thread.start();
@@ -146,9 +149,9 @@ public class MainComponent extends Canvas implements Runnable {
         }
     } // run();
     
-    public void render(Graphics g) {        
+    public void render(Graphics g) { 
+        screen.fill(new Color(0, 0, 0).getRGB());
         manager.drawCurrentMenu(screen);
-        
         g.drawImage(screen.image, 0, 0, null);
     } // render(Graphics);
     

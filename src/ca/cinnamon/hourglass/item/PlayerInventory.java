@@ -13,9 +13,11 @@ import java.awt.Color;
  * @author dckra
  */
 public class PlayerInventory extends Container {
+    public IWeapon weapon;
+    public IWearable[] armour;
+    
     @Override
     public void DrawMenu(Screen screen) {
-        System.out.println("Draw Inventory");
-        //screen.colourFill(new Color(255, 0, 0).getRGB(), 10, 10, 100, 100);
+
     } // DrawMenu(Graphics);
 } // PlayerInventory;

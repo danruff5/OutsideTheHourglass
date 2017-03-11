@@ -67,6 +67,7 @@ public class MainMenu extends Menu {
     private int btnWidth = 150;
 
     public MainMenu(int screen_width, int screen_height) {
+        ID = MenuType.Main;
         //Load buttons
         MenuButton btnStart = new MenuButton("btnStart",
                 "Start Game",

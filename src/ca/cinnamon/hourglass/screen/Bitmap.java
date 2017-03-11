@@ -35,8 +35,12 @@ public class Bitmap{
         this.pixels = new int[w * h];
     }
     
-    public void fill(int color) {
-        Arrays.fill(pixels, color);
+    public void fill(int colour) {        
+        for (int xp = 0; xp < w; ++xp) {
+            for (int yp = 0; yp < h; ++yp) {
+                pixels[yp * this.w + xp] = colour;
+            }
+        }
     }
     
     public void blit(Bitmap bitmap, int x, int y) {
@@ -78,7 +82,7 @@ public class Bitmap{
         }
     }
     public void colourFill(int colour, int x, int y, int w, int h) {
-        for (int xp = x;  xp < x + w; ++xp) {
+        for (int xp = x; xp < x + w; ++xp) {
             for (int yp = y; yp < y + h; ++yp) {
                 pixels[yp * this.w + xp] = colour;
             }

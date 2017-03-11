@@ -15,6 +15,10 @@ import java.util.ArrayList;
 public abstract class Container {
     public ArrayList<IItem> items;
     
+    public Container() {
+        items = new ArrayList<>();
+    } // Container();
+    
     public void AddItem(IItem item) {
         items.add(item);
     } // AddItem(IItem);

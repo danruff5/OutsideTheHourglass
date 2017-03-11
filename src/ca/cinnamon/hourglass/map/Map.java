@@ -134,6 +134,10 @@ public class Map implements java.io.Serializable{
     	}
     	Point stairs=this.GetRandomFloorTile();
     	this.tiles[stairs.x][stairs.y]=new StairTile(stairs.x*tileWidth,stairs.y*tileHeight);
+        
+        Point chest = this.GetRandomFloorTile();
+        this.tiles[chest.x][chest.y] = new ChestTile(chest.x * tileWidth, chest.y * tileHeight);
+        
     	Slime slm=new Slime(Map.currentMap.GetRandomFloorTile());
         
         entities.add(slm);
