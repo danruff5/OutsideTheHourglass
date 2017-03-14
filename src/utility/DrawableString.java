@@ -11,13 +11,16 @@ import ca.cinnamon.hourglass.screen.BitmapManager;
 import java.util.HashMap;
 import java.awt.Point;
 public class DrawableString {
-	private HashMap<Character,Point> characters = def();
+	private static HashMap<Character,Point> characters = new HashMap<Character,Point>();
 	private static BitmapManager sheets=new BitmapManager();
 	private static String img="./Pictures/BoxyBold - by Clint Bellanger/Repacked - double.png";
 	private static int width=18;
 	private static int height=16;
 	public String s=""; 
 	public DrawableString(String s){
+		if (characters.isEmpty()){
+			def();
+		}
 		sheets.add(img);
 		this.s=s.toLowerCase();
 	}
@@ -29,9 +32,9 @@ public class DrawableString {
 			x_hold+=width-1;
 		}
 	}
-	private static HashMap<Character,Point> def(){
+	private static void def(){
 		
-		HashMap<Character,Point> ret=new HashMap<Character,Point>();
+		HashMap<Character,Point> ret=characters;
 		
 		ret.put(' ', new Point(0*width,0*height));
 		ret.put('!', new Point(1*width,0*height));
@@ -109,7 +112,5 @@ public class DrawableString {
 		ret.put('|', new Point(3*width,7*height));
 		ret.put('}', new Point(4*width,7*height));
 		ret.put('~', new Point(5*width,7*height));
-		
-		return ret;
 	}
 }
