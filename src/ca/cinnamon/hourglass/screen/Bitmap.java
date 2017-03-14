@@ -76,7 +76,7 @@ public class Bitmap{
         
         for (int xp = minX; xp < maxX; ++xp) {
             for (int yp = minY; yp < maxY; ++yp) {
-            	if ( bitmap.pixels[yp * bitmap.w + xp]!=ALPHACOLOR)
+            	if ( bitmap.pixels[(yp+yoffset) * bitmap.w + xp+xoffset]!=ALPHACOLOR)
             		pixels[(y + yp) * this.w + (x + xp)] = bitmap.pixels[(yp+yoffset) * bitmap.w + (xp+xoffset)];
             }
         }

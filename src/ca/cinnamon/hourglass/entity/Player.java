@@ -20,6 +20,7 @@ import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.Tile;
 import ca.cinnamon.hourglass.screen.Screen;
 import ca.cinnamon.hourglass.sound.SoundPlayer;
+import utility.DrawableString;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -249,6 +250,9 @@ public class Player extends Mob
 		}
 		String sScore = Integer.toString(score);
 		int scoreOffset = 0;
+		DrawableString ds=new DrawableString("SCORE: "+sScore);
+		ds.Draw(screen, 0, 0);
+		/*
 		try
 		{
 			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'S' - 48) + ".png"),
@@ -290,6 +294,7 @@ public class Player extends Mob
 			}
 			scoreOffset += 16;
 		}
+		*/
 	}
 
 	@Override
