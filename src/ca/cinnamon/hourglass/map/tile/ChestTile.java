@@ -4,6 +4,8 @@ import ca.cinnamon.hourglass.entity.Entity;
 import ca.cinnamon.hourglass.entity.Player;
 import ca.cinnamon.hourglass.item.Potion;
 import ca.cinnamon.hourglass.map.Map;
+import ca.cinnamon.hourglass.screen.Bitmap;
+
 import java.awt.Point;
 
 public class ChestTile extends Tile {
@@ -30,4 +32,10 @@ public class ChestTile extends Tile {
         }
         return isSolid;
     } 
+    @Override
+	public void draw(Bitmap fullBMP) 
+    {
+    	fullBMP.blit(imgs.add(img), x, y,WIDTH,HEIGHT,10,1);
+    	fullBMP.blit(imgs.add(img), x, y,WIDTH,HEIGHT,X_OFFSET,Y_OFFSET);
+    }
 } // END class
