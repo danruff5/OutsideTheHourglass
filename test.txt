@@ -1,0 +1,11 @@
+git init => Initalises a new git repo
+git remote add <name> <link> => Adds an new remote link to  a server
+
+When commiting:
+git add . => Adds all the changes to staged
+git commit -m "<message>" => commits the staged
+
+When pushing/pulling
+git pull <remote name> <branch name> => pulls from remote
+git push <remote name> <branch name> => pushes to remote
+
