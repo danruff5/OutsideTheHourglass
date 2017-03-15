@@ -19,9 +19,7 @@ public class Wolf extends Mob {
 
     public void Tick() {
     		Point target=Map.player.getLocation();    		
-    		currentMap.changedTile.add(this.loc);
     		this.loc=Path.orthoPathMap(loc, target, Map.currentMap);
-    		currentMap.changedTile.add(this.loc);
     		this.loc=Path.orthoPathMap(loc, target, Map.currentMap);
     }
 

@@ -111,7 +111,6 @@ public class Player extends Mob
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.y -= 1;
 		}
 		else
@@ -125,7 +124,6 @@ public class Player extends Mob
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.y += 1;
 		}
 		else
@@ -139,7 +137,6 @@ public class Player extends Mob
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.x += 1;
 		}
 		else
@@ -153,7 +150,6 @@ public class Player extends Mob
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.x -= 1;
 		}
 		else
@@ -248,9 +244,7 @@ public class Player extends Mob
 		{
 			graphicsBrush.drawImage(heartDeadImage, 1000 + (i + heartNum) * 60, 10, null);
 		}
-		String sScore = Integer.toString(score);
-		int scoreOffset = 0;
-		DrawableString.Draw(screen,"SCORE: "+sScore, 0, 0);
+		DrawableString.Draw(screen,"SCORE: "+Integer.toString(score), 10, 10);
 		//DrawableString.Draw(screen,"HELLO WORLD!", 100, 100);
 	}
 
