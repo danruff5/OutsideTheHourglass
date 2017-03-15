@@ -92,13 +92,12 @@ public class MainComponent extends Canvas implements Runnable {
         GAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GAME.addKeyListener(mc.keys);
         GAME.setVisible(true);
-        //Map.currentMap.reDraw();
         mc.start();
     } // main(String[]);
     
     public void start() {
         SoundPlayer.init();
-        MusicPlayer.dungeonTrack.loop();
+        //MusicPlayer.dungeonTrack.loop();
         running = true;
         Thread thread = new Thread(this);
         thread.setPriority(Thread.MAX_PRIORITY);

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.awt.Point;
 public class DrawableString {
 	private static HashMap<Character,Point> characters = new HashMap<Character,Point>();
-	private static BitmapManager sheets=new BitmapManager();
+	private static BitmapManager sheets=BitmapManager.bManager;
 	private static String img="./Pictures/BoxyBold - by Clint Bellanger/Repacked - double.png";
 	private static int width=18;
 	private static int height=16;

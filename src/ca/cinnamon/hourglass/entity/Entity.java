@@ -18,7 +18,7 @@ import ca.cinnamon.hourglass.screen.Screen;
 public interface Entity {
     public void Tick();
     public void Draw(Screen screen);
-    public static BitmapManager sprites=new BitmapManager();
+    public static BitmapManager sprites=BitmapManager.bManager;
     public Map currentMap=null;
     public int Hurt(int DAM);
     public Point getLocation();

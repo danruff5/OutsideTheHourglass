@@ -12,7 +12,7 @@ import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 
 public class TileImg implements java.io.Serializable,Comparable<TileImg> {
-	protected transient static BitmapManager imgs=new BitmapManager();
+	protected transient static BitmapManager imgs=BitmapManager.bManager;
     
     // The tiles heght and width -> always the same for every tile.
     protected static final int HEIGHT=Map.tileHeight ;
