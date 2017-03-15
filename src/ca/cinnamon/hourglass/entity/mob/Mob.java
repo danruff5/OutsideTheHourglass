@@ -45,7 +45,6 @@ public abstract class Mob implements Entity
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.y -= 1;
 		}
 	}
@@ -54,7 +53,6 @@ public abstract class Mob implements Entity
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.y += 1;
 		}
 	}
@@ -63,7 +61,6 @@ public abstract class Mob implements Entity
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.x += 1;
 		}
 	}
@@ -72,7 +69,6 @@ public abstract class Mob implements Entity
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.x -= 1;
 		}
 	}

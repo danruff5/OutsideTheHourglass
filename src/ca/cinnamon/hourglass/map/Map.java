@@ -40,21 +40,15 @@ public class Map implements java.io.Serializable{
     public static transient Player player=null;
     public static final int tileWidth = 32;
     public static final int tileHeight = 32;
-    public ArrayList<Point> changedTile=new ArrayList<Point>();
     public int height;
     public int width;
-    public transient Bitmap fullBMP;
     public ArrayList<Entity> entities;
     public Map(int width,int height){
     	this.tiles=new Tile[width][height];
     	this.height=height;
     	this.width=width;
     	entities = new ArrayList<>();
-    	
     	Map.currentMap=this;
-    	
-
-    	//testMap(width,height);
     }
   
     public Point GetRandomFloorTile(){
@@ -232,9 +226,6 @@ public class Map implements java.io.Serializable{
          }
     	return m;
     }
-    public void reDraw(){
-    	fullBMP=null;
-    }
     public void draw(Screen screen) {
     	/*if (fullBMP==null){
     		fullBMP=new Bitmap(screen.w,screen.h);
@@ -259,7 +250,6 @@ public class Map implements java.io.Serializable{
         		tiles[i][j].draw(screen);
         	}
         }
-    	changedTile.clear();
         for(int i=0;i<entities.size();++i){
         	entities.get(i).Draw(screen);
         }

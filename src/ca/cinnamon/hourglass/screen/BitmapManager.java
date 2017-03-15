@@ -14,9 +14,10 @@ import javax.imageio.ImageIO;
 * (e.g. so the program has 1 bmp for a floor tile instead of 100 file reads)
 */
 public class BitmapManager{
-	java.util.HashMap<String, Bitmap> dict= new java.util.HashMap<String, Bitmap>();
-	
-	public Bitmap add(String key){
+	static java.util.HashMap<String, Bitmap> dict= new java.util.HashMap<String, Bitmap>();
+	private BitmapManager(){};
+	public static BitmapManager bManager=new BitmapManager();
+	public static Bitmap add(String key){
 		
 		if (dict.containsKey(key)){
 			return dict.get(key);

@@ -20,6 +20,7 @@ import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.map.tile.Tile;
 import ca.cinnamon.hourglass.screen.Screen;
 import ca.cinnamon.hourglass.sound.SoundPlayer;
+import utility.DrawableString;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -110,7 +111,6 @@ public class Player extends Mob
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.y -= 1;
 		}
 		else
@@ -124,7 +124,6 @@ public class Player extends Mob
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.y += 1;
 		}
 		else
@@ -138,7 +137,6 @@ public class Player extends Mob
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.x += 1;
 		}
 		else
@@ -152,7 +150,6 @@ public class Player extends Mob
 	{
 		if (!T.collide(this))
 		{
-			currentMap.changedTile.add(new Point(this.loc));
 			this.loc.x -= 1;
 		}
 		else
@@ -247,49 +244,8 @@ public class Player extends Mob
 		{
 			graphicsBrush.drawImage(heartDeadImage, 1000 + (i + heartNum) * 60, 10, null);
 		}
-		String sScore = Integer.toString(score);
-		int scoreOffset = 0;
-		try
-		{
-			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'S' - 48) + ".png"),
-					scoreOffset, 0, 14, 16);
-			scoreOffset += 16;
-			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'C' - 48) + ".png"),
-					scoreOffset, 0, 14, 16);
-			scoreOffset += 16;
-
-			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'O' - 48) + ".png"),
-					scoreOffset, 0, 14, 16);
-			scoreOffset += 16;
-
-			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'R' - 48) + ".png"),
-					scoreOffset, 0, 14, 16);
-			scoreOffset += 16;
-			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + 'E' - 48) + ".png"),
-					scoreOffset, 0, 14, 16);
-			scoreOffset += 16;
-
-			screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + "26" + ".png"), scoreOffset, 0, 8,
-					16);
-			scoreOffset += 16;
-			scoreOffset += 16;
-
-		}
-		catch (Exception ex)
-		{
-		}
-		for (char c : sScore.toCharArray())
-		{
-			try
-			{
-				screen.blit(sprites.add("./Pictures/BoxyBold - by Clint Bellanger/Double/" + (16 + c - 48) + ".png"),
-						scoreOffset, 0, 14, 16);
-			}
-			catch (Exception ex)
-			{
-			}
-			scoreOffset += 16;
-		}
+		DrawableString.Draw(screen,"SCORE: "+Integer.toString(score), 10, 10);
+		//DrawableString.Draw(screen,"HELLO WORLD!", 100, 100);
 	}
 
 	@Override

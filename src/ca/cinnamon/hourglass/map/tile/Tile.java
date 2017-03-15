@@ -28,7 +28,7 @@ import ca.cinnamon.hourglass.screen.Screen;
  */
 public abstract class Tile implements java.io.Serializable{
     // This is a specific tile in the map.
-    protected transient static BitmapManager imgs=new BitmapManager();
+    protected transient static BitmapManager imgs=BitmapManager.bManager;
     
     // The tiles heght and width -> always the same for every tile.
     protected static final int HEIGHT=Map.tileHeight ;
@@ -49,17 +49,6 @@ public abstract class Tile implements java.io.Serializable{
         loc=new Point(x/WIDTH,y/HEIGHT);
         img=null;
     }
-    
-    /*public Tile(String src,int x, int y) {
-        this.x = x;
-        this.y = y;
-        try{
-        	img = Bitmap.convert( ImageIO.read(new File(src)),WIDTH,HEIGHT);
-        } catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }*/
     
     public void draw(Bitmap fullBMP) 
     {
