@@ -1,6 +1,7 @@
 package ca.cinnamon.hourglass.map.tile;
 
 import ca.cinnamon.hourglass.screen.Bitmap;
+import ca.cinnamon.hourglass.screen.BitmapManager;
 
 public class WallTile extends Tile {
 
@@ -11,10 +12,11 @@ public class WallTile extends Tile {
 		img="./Pictures/sheet32X.png";
         this.isSolid=true;
 	}
+/*
 	@Override
 	public void draw(Bitmap fullBMP) 
     {	
-    	fullBMP.blit(imgs.add(img), x, y,WIDTH,HEIGHT,X_OFFSET,Y_OFFSET);
+    	fullBMP.blit(BitmapManager.add(img), x, y,WIDTH,HEIGHT,X_OFFSET,Y_OFFSET);
     }
-
+*/
 }

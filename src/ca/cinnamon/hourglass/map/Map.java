@@ -45,6 +45,7 @@ public class Map implements java.io.Serializable{
     public ArrayList<Entity> entities;
     public Map(int width,int height){
     	this.tiles=new Tile[width][height];
+    	
     	this.height=height;
     	this.width=width;
     	entities = new ArrayList<>();
@@ -65,24 +66,7 @@ public class Map implements java.io.Serializable{
     		return openTiles.get(rnd.nextInt(openTiles.size()));
     	return null;
     }
-    public void testMap(int width,int height){
-        for (int i=0;i<width;++i){
-        	for (int j=0;j<height;++j){	
-        		this.add(new FloorTile(tileWidth*i,tileHeight*j));
-        	}
-        }
-        for (int i=0;i<width;++i){
-        	this.tiles[i][0]=new WallTile(tileWidth*i,0);
-        	this.tiles[i][height-1]=new WallTile(tileWidth*i,tileHeight*(height-1));
-        }
-        for (int i=0;i<height;++i){
-        	this.tiles[0][i]=new WallTile(0,tileHeight*i);
-        	this.tiles[width-1][i]=new WallTile(tileWidth*(width-1),tileHeight*i);
-        }
-        this.tiles[1][1]=new StairTile(tileWidth,tileHeight);
-        this.tiles[3][3]=new WallTile(tileWidth*3,tileHeight*3);
-       
-    }
+    
     public void testCave(int itterations){
     	for (int i=0;i<width;++i){
         	for (int j=0;j<height;++j){	
@@ -132,6 +116,20 @@ public class Map implements java.io.Serializable{
         Point chest = this.GetRandomFloorTile();
         this.tiles[chest.x][chest.y] = new ChestTile(chest.x * tileWidth, chest.y * tileHeight);
         
+        for (int i = 0; i < width; ++i) {
+        	for (int j=0;j < height;++j)
+        	{
+        		if (i>0)
+        			tiles[i][j].neighbors.add(tiles[i-1][j]);
+        		if (i<width-1)
+        			tiles[i][j].neighbors.add(tiles[i+1][j]);
+        		if (j>0)
+        			tiles[i][j].neighbors.add(tiles[i][j-1]);
+        		if (j<height-1)
+            		tiles[i][j].neighbors.add(tiles[i][j+1]);
+        	}
+        }
+        
     	Slime slm=new Slime(Map.currentMap.GetRandomFloorTile());
         
         entities.add(slm);
@@ -141,45 +139,7 @@ public class Map implements java.io.Serializable{
         entities.add(new Wolf(Map.currentMap.GetRandomFloorTile()));
         
     }
-    public void testMaze(int width,int height,int density){
-    	 for (int i=0;i<width;++i){
-         	for (int j=0;j<height;++j){	
-         		this.add(new WallTile(tileWidth*i,tileHeight*j));
-         	}
-         }
-    	 
-         Random rnd=new Random();
-         ArrayList<Rectangle> rooms=new  ArrayList<Rectangle>();
-         int tries=0;
-         while (rooms.size()<density&&++tries<5000000){
-        	 
-        	 int x1=1+rnd.nextInt(width);
-        	 int x2=3+rnd.nextInt(4);
-        	 int y1=1+rnd.nextInt(height);
-        	 int y2=3+rnd.nextInt(4);
-        	 
-        	 if (x2+x1<width&&y2+y1<height){
-        		 Rectangle canidate=new Rectangle(x1,y1,x2,y2);
-        		 boolean collides=false;
-        		 for(int i=0;i<rooms.size();i++){
-        			 if (rooms.get(i).intersects(canidate)){
-        				collides=true;
-        				break;
-        			 }
-        		 }
-        		 if (!collides)
-        			 rooms.add(canidate);
-        	 }
-        	 
-         }
-         for (Rectangle R:rooms){
-        	 for (int i=R.x;i<R.x+R.width;i++)
-        		 for (int j=R.y;j<R.y+R.height;j++){
-        			 this.tiles[i][j]=new FloorTile(i*this.tileWidth,j*this.tileHeight);
-        		 }
-         }
-         
-    }
+    
     public void add(Tile T){
     	for (int i = 0; i <width; ++i) {
         	for (int j=0;j<height;++j){
@@ -192,9 +152,7 @@ public class Map implements java.io.Serializable{
         	}
         }
     }
-    public Tile get(Point p){
-    	return tiles[p.x][p.y];
-    }
+    
     public void save(){
     	try {
             FileOutputStream fileOut =
@@ -227,24 +185,7 @@ public class Map implements java.io.Serializable{
     	return m;
     }
     public void draw(Screen screen) {
-    	/*if (fullBMP==null){
-    		fullBMP=new Bitmap(screen.w,screen.h);
-	        for (int i = 0; i < width; ++i) {
-	        	for (int j=0;j < height;++j)
-	        	{
-	        		tiles[i][j].draw(fullBMP);
-	        	}
-	        }
-    	
-    	for(int i=0;i<fullBMP.w*fullBMP.h;++i){
-    		screen.pixels[i]=fullBMP.pixels[i];
-    	}
-    	}
-    	
-    	for(Point p :this.changedTile){
-    		this.tiles[p.x][p.y].draw(screen);
-    	}*/
-    	for (int i = 0; i < width; ++i) {
+       	for (int i = 0; i < width; ++i) {
         	for (int j=0;j < height;++j)
         	{
         		tiles[i][j].draw(screen);
