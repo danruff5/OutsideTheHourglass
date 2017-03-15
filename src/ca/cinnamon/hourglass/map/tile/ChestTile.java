@@ -5,6 +5,7 @@ import ca.cinnamon.hourglass.entity.Player;
 import ca.cinnamon.hourglass.item.Potion;
 import ca.cinnamon.hourglass.map.Map;
 import ca.cinnamon.hourglass.screen.Bitmap;
+import ca.cinnamon.hourglass.screen.BitmapManager;
 
 import java.awt.Point;
 
@@ -36,7 +37,7 @@ public class ChestTile extends Tile {
     @Override
 	public void draw(Bitmap fullBMP) 
     {
-    	fullBMP.blit(imgs.add(img), x, y,WIDTH,HEIGHT,WIDTH*6,HEIGHT*0);
-    	fullBMP.blit(imgs.add(img), x, y,WIDTH,HEIGHT,X_OFFSET,Y_OFFSET);
+    	fullBMP.blit(BitmapManager.add(img), drawX, drawY,WIDTH,HEIGHT,WIDTH*6,HEIGHT*0);
+    	fullBMP.blit(BitmapManager.add(img), drawX, drawY,WIDTH,HEIGHT,X_OFFSET,Y_OFFSET);
     }
 } // END class

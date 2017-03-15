@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 
 import ca.cinnamon.hourglass.entity.Entity;
 import ca.cinnamon.hourglass.map.Map;
+import ca.cinnamon.hourglass.map.Node;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.BitmapManager;
 import ca.cinnamon.hourglass.screen.Screen;
@@ -26,33 +27,29 @@ import ca.cinnamon.hourglass.screen.Screen;
  * @purpose A tile is a square on a map grid that includes an image and whether it is solid to movement;
  * @version 1
  */
-public abstract class Tile implements java.io.Serializable{
-    // This is a specific tile in the map.
-    protected transient static BitmapManager imgs=BitmapManager.bManager;
-    
+public abstract class Tile extends Node implements java.io.Serializable{
     // The tiles heght and width -> always the same for every tile.
     protected static final int HEIGHT=Map.tileHeight ;
     protected static final int WIDTH=Map.tileWidth;
     protected int X_OFFSET = 0;
     protected int Y_OFFSET = 0;
     protected String img;
-    public boolean isSolid;
-    // The position of the tile.
-    protected int x;
-    protected int y;
-    protected Random rnd=new Random();
-    public Point loc;
     
-    public Tile(int x, int y)  {
-        this.x = x;
-        this.y = y;
-        loc=new Point(x/WIDTH,y/HEIGHT);
+    // The position of the tile.
+    protected int drawX;
+    protected int drawY;
+    protected Random rnd=new Random();
+    
+    public Tile(int dx, int dy)  {
+    	super(dx/WIDTH,dy/HEIGHT);
+        this.drawX = dx;
+        this.drawY = dy;
         img=null;
     }
     
     public void draw(Bitmap fullBMP) 
     {
-    	fullBMP.blit(imgs.add(img), x, y,WIDTH,HEIGHT,X_OFFSET,Y_OFFSET);
+    	fullBMP.blit(BitmapManager.add(img), drawX, drawY,WIDTH,HEIGHT,X_OFFSET,Y_OFFSET);
     }
     public boolean collide(Entity E) { return isSolid; }
 }
