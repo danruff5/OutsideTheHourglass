@@ -16,20 +16,14 @@ public class DrawableString {
 	private static String img="./Pictures/BoxyBold - by Clint Bellanger/Repacked - double.png";
 	private static int width=18;
 	private static int height=16;
-	public String s=""; 
-	public DrawableString(String s){
+	private DrawableString(){};
+	public static void Draw(Bitmap screen,String s, int x,int y){
 		if (characters.isEmpty()){
 			def();
 		}
-		sheets.add(img);
-		this.s=s.toLowerCase();
-	}
-	public void Draw(Bitmap screen, int x,int y){
-		int x_hold=x;
-		for(char c : s.toCharArray()){
-			//Point p=characters.get(c);
-			screen.blit(sheets.add(img),x_hold,y,width-1,height, characters.get(c).x, characters.get(c).y);
-			x_hold+=width-1;
+		for(char c : s.toLowerCase().toCharArray()){
+			screen.blit(sheets.add(img),x,y,width-1,height, characters.get(c).x, characters.get(c).y);
+			x+=width-1;
 		}
 	}
 	private static void def(){
