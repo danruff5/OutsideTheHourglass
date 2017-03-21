@@ -22,11 +22,12 @@ public class Bitmap{
      */
     public static Bitmap convert(BufferedImage img,int width, int height){
 		Bitmap ret=new Bitmap(img.getWidth(), img.getHeight());
-		for (int i=0;i<width;++i){
-			for (int j=0;j<height;++j){
-				ret.pixels[j* ret.w +i]=img.getRGB(i, j);
-			}
-		}
+//		for (int i=0;i<width;++i){
+//			for (int j=0;j<height;++j){
+//				ret.pixels[j* ret.w +i]=img.getRGB(i, j);
+//			}
+//		}
+                img.getRGB(0, 0, img.getWidth(), img.getHeight(), ret.pixels, 0, img.getWidth());
 		return ret;
 	}
     public Bitmap(int w, int h) {
@@ -85,6 +86,25 @@ public class Bitmap{
         for (int xp = x; xp < x + w; ++xp) {
             for (int yp = y; yp < y + h; ++yp) {
                 pixels[yp * this.w + xp] = colour;
+            }
+        }
+    }
+    
+    public void colourLine(int colour, int x1, int y1, int x2, int y2) {
+        if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
+            double m = ((double)(y2 - y1) / (double)(x2 - x1));
+            int start = Math.min(x1, x2);
+            int end = Math.max(x1, x2);
+            for (int x = start; x <= end; x++) {
+                int y = y1 + (int)((double)(x - x1) * m);
+                pixels[y * this.w + x] = colour;
+            }
+        } else {
+            int start = Math.min(y1, y2);
+            int end = Math.max(y1, y2);
+            for (int y = start; y <= end; y++) {
+                int x = ((y - y1) * (x2 - x1) + x1 * (y2 - y1)) / (y2 - y1);
+                pixels[y * this.w + x] = colour;
             }
         }
     }
