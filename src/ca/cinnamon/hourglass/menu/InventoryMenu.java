@@ -12,8 +12,6 @@ import ca.cinnamon.hourglass.item.Potion;
 import ca.cinnamon.hourglass.menu.MenuManager.MenuType;
 import ca.cinnamon.hourglass.screen.Screen;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 /**
@@ -25,8 +23,6 @@ public class InventoryMenu extends Menu {
     private PlayerInventory inventory;
     private Keys keys;
     
-    private Font font = new Font("Arial Black", Font.BOLD, 20);
-    //private Graphics g;
     private STATE GameState;
     
     private int screen_width, screen_height;
@@ -63,16 +59,13 @@ public class InventoryMenu extends Menu {
         }
         
         int white = new Color(255, 255, 255).getRGB();
-        int startx = 50, starty = 50;
-        int size = 50;
-        int cols = 10, rows = 10;
         
-        for (int x = startx; x <= startx + (size * cols); x += size)
-            screen.colourLine(white, x, starty, x + 1, starty + size * rows);
-        
-        for (int y = starty; y <= starty + (size * rows); y += size)
-            screen.colourLine(white, startx, y, startx + size * cols, y);
+        screen.drawGrid(white, 100, 50, 50, 9, 4);
+        screen.drawGrid(white, 150, 1200, 50, 1, 4);
+        screen.drawSquare(white, 150, 1050, 125);        
     } // draw(Screen);
+    
+    
 
     @Override
     public void tick() {
@@ -89,13 +82,13 @@ public class InventoryMenu extends Menu {
         }
     } // tick();
     
-     public STATE GetCurrentGameState() {
+    public STATE GetCurrentGameState() {
         return GameState;
-    }
+    } // GetCurrentGameState();
 
     public void SetCurrentGameState(STATE s) {
         GameState = s;
         //Create a StateChangedEvent here and throw it back to the main
         stateChanged();
-    }
+    } // SetCurrentGameState(STATE);
 } // InventoryMenu;
