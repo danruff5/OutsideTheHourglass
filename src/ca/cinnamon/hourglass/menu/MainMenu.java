@@ -1,5 +1,6 @@
 package ca.cinnamon.hourglass.menu;
 
+import ca.cinnamon.hourglass.gui.Keys;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.CardLayout;
@@ -39,6 +40,7 @@ import javax.swing.JPanel;
 import ca.cinnamon.hourglass.menu.MenuManager.MenuType;
 import ca.cinnamon.hourglass.screen.Bitmap;
 import ca.cinnamon.hourglass.screen.Screen;
+import java.awt.event.KeyEvent;
 
 public class MainMenu extends Menu {
 
@@ -56,6 +58,7 @@ public class MainMenu extends Menu {
     private BufferedImage backgroundImage;
 
     private Graphics graphicsBrush;
+    private Keys keys;
 
     //temp variables for testing
     private boolean isDarkened = false;
@@ -66,8 +69,9 @@ public class MainMenu extends Menu {
     private int btnHeight = 50;
     private int btnWidth = 150;
 
-    public MainMenu(int screen_width, int screen_height) {
+    public MainMenu(int screen_width, int screen_height, Keys keys) {
         ID = MenuType.Main;
+        this.keys = keys;
         //Load buttons
         MenuButton btnStart = new MenuButton("btnStart",
                 "Start Game",
@@ -128,9 +132,9 @@ public class MainMenu extends Menu {
         ComponentMap.put("btnExit", btnExit);
     }
 
-    public void init(MenuType id) {
+    public void init() {
         //Put initial loading in here after changing how screen size is passed
-        ID = id;
+        //ID = id;
 
     }
 
@@ -159,7 +163,10 @@ public class MainMenu extends Menu {
     }
 
     public void tick() {
-
+        if (this.keys.keys[KeyEvent.VK_ENTER].pressed) {
+            // Press enter to start the game.
+            SetCurrentGameState(STATE.Game);
+        }
     }
 
     /*===============================================================

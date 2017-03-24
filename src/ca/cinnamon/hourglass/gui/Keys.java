@@ -30,6 +30,8 @@ public class Keys implements KeyListener {
         keys[KeyEvent.VK_SPACE] = new Key();
         keys[KeyEvent.VK_E] = new Key();
         keys[KeyEvent.VK_H] = new Key();
+        
+        keys[KeyEvent.VK_ENTER] = new Key();
     }
 
     @Override
@@ -45,7 +47,8 @@ public class Keys implements KeyListener {
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_ESCAPE: 
             case KeyEvent.VK_SPACE:
-            case KeyEvent.VK_H:
+            case KeyEvent.VK_H:      
+            case KeyEvent.VK_ENTER:
                 keys[e.getKeyCode()].pressed = true; 
                 main.tick();
                 break;
@@ -68,6 +71,7 @@ public class Keys implements KeyListener {
             case KeyEvent.VK_SPACE: 
             case KeyEvent.VK_E:
             case KeyEvent.VK_H:
+            case KeyEvent.VK_ENTER:
                 keys[e.getKeyCode()].pressed = false; 
                 break;
         }

@@ -62,6 +62,7 @@ public class MenuManager implements MenuStateListener {
             
             currentMenu = index;
             availableMenus.get(currentMenu).isEnabled = true;
+            availableMenus.get(currentMenu).init();
             
             return true;
         }

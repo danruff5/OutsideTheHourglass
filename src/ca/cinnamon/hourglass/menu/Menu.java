@@ -27,7 +27,7 @@ public abstract class Menu implements MouseListener, MouseMotionListener {
 //Dictionary of components drawn on menu, !!!eventually should be a generic component!!!
     public Map<String, MenuButton> ComponentMap = new HashMap<String, MenuButton>();
 
-    public abstract void init(MenuType id);
+    public abstract void init();
 
     public abstract void draw(Screen screen);
 

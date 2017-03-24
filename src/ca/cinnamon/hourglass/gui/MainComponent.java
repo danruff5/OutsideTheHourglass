@@ -103,7 +103,7 @@ public class MainComponent extends Canvas implements Runnable {
         thread.setPriority(Thread.MAX_PRIORITY);
         
         manager = new MenuManager(this);
-        manager.addMenu(new MainMenu(GAME_WIDTH, GAME_HEIGHT));
+        manager.addMenu(new MainMenu(GAME_WIDTH, GAME_HEIGHT, keys));
         GameMenu game = new GameMenu(GAME_WIDTH, GAME_HEIGHT, keys);
         manager.addMenu(game);
         manager.addMenu(new InventoryMenu(keys, game.player.inventory, GAME_WIDTH, GAME_HEIGHT));

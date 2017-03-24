@@ -44,10 +44,10 @@ public class GameMenu extends Menu
 	} // GameMenu(int, int);
 
 	@Override
-	public void init(MenuManager.MenuType id)
+	public void init()
 	{
 
-	} // init(MenuType);
+	} // init();
 
 	@Override
 	public void draw(Screen screen)
