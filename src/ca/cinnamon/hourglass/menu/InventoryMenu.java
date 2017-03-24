@@ -14,6 +14,7 @@ import ca.cinnamon.hourglass.menu.MenuManager.MenuType;
 import ca.cinnamon.hourglass.screen.Screen;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import utility.DrawableString;
 
 /**
  *
@@ -22,6 +23,8 @@ import java.awt.event.KeyEvent;
 public class InventoryMenu extends Menu {
 
     private PlayerInventory inventory;
+    private ItemPosition selectedItem;
+    private boolean inventorySelected;
     private Keys keys;
     
     private STATE GameState;
@@ -38,10 +41,12 @@ public class InventoryMenu extends Menu {
         this.inventory = inventory;
         this.screen_width = screen_width;
         this.screen_height = screen_height;
+        this.inventorySelected = true;
     } // InventoryMenu(Playinventory);
 
     @Override
-    public void init(MenuManager.MenuType id) {
+    public void init() {
+        selectedItem = new ItemPosition(1, 1);
     } // init(MenuType);
 
     @Override
@@ -60,6 +65,42 @@ public class InventoryMenu extends Menu {
         }
         
         this.inventory.Draw(screen);
+        
+        IItem item;
+        int o = 15;
+        int selectColour = new Color(255, 255, 0).getRGB();
+        if (inventorySelected) {
+            item = this.inventory.FindItemPosition(selectedItem.row, selectedItem.col);
+            screen.drawSquare(
+                    selectColour, 
+                    100 - o, 
+                    (50 + (selectedItem.row - 1) * 100) + o / 2, 
+                    (50 + (selectedItem.col - 1) * 100) + o / 2
+            );
+        } else {
+            if (selectedItem.row == 2) {
+                item = this.inventory.armour[selectedItem.col - 1];
+                screen.drawSquare(
+                        selectColour, 
+                        150 - o, 
+                        1200 + o / 2, 
+                        (50 + (selectedItem.col - 1) * 150) + o / 2
+                );
+            } else {
+                item = this.inventory.weapon;
+                screen.drawSquare(
+                        selectColour, 
+                        150 - o, 
+                        1050 + o / 2, 
+                        125 + o / 2
+                );
+            }
+        }
+        
+        if (item != null) {
+            DrawableString.Draw(screen, item.getName(), 100, 500);
+            DrawableString.Draw(screen, item.getDescription(), 100, 525);
+        }
     } // draw(Screen);
 
     @Override
@@ -74,6 +115,52 @@ public class InventoryMenu extends Menu {
             }
         } else if (this.keys.keys[KeyEvent.VK_E].pressed) {
             SetCurrentGameState(STATE.game);
+        } 
+        
+        if (inventorySelected) {
+            if (this.keys.keys[KeyEvent.VK_UP].pressed) {
+                if (selectedItem.col >= 2) {
+                    selectedItem.col--;
+                }
+            } else if (this.keys.keys[KeyEvent.VK_RIGHT].pressed) {
+                if (selectedItem.row <= inventory.rows - 1) {
+                    selectedItem.row++;
+                } else if (selectedItem.row == inventory.rows) {
+                    inventorySelected = false;
+                    selectedItem.col = 1;
+                    selectedItem.row = 1;
+                }
+            } else if (this.keys.keys[KeyEvent.VK_DOWN].pressed) {
+                if (selectedItem.col <= inventory.cols - 1) {
+                    selectedItem.col++;
+                }
+            } else if (this.keys.keys[KeyEvent.VK_LEFT].pressed) {
+                if (selectedItem.row >= 2) {
+                    selectedItem.row--;
+                }
+            }
+        } else {
+            if (this.keys.keys[KeyEvent.VK_UP].pressed) {
+                if (selectedItem.row == 2 && selectedItem.col >= 2) {
+                    selectedItem.col--;
+                }
+            } else if (this.keys.keys[KeyEvent.VK_RIGHT].pressed) {
+                if (selectedItem.row == 1) {
+                    selectedItem.row = 2;
+                }
+            } else if (this.keys.keys[KeyEvent.VK_DOWN].pressed) {
+                if (selectedItem.row == 2 && selectedItem.col <= 3) {
+                    selectedItem.col++;
+                }
+            } else if (this.keys.keys[KeyEvent.VK_LEFT].pressed) {
+                if (selectedItem.row == 1) {
+                    selectedItem.col = 1;
+                    selectedItem.row = this.inventory.rows;
+                    inventorySelected = true;
+                } else {
+                    selectedItem.row = 1;
+                }
+            }
         }
     } // tick();
     

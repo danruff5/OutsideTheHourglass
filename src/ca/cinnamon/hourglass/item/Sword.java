@@ -23,7 +23,7 @@ public class Sword implements IWeapon {
     @Override
     public void Draw(Screen screen, int x, int y) {
         screen.drawSquare(new Color(255, 0, 255).getRGB(), 75, x + 37, y + 37);
-        DrawableString.Draw(screen, getName(), x, y);
+        //DrawableString.Draw(screen, getName(), x, y);
     } // Draw(Graphics);
 
     @Override

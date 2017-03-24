@@ -27,7 +27,7 @@ public class Boots implements IWearable {
     @Override
     public void Draw(Screen screen, int x, int y) {
         screen.drawSquare(new Color(0, 255, 0).getRGB(), 75, x + 37, y + 37);
-        DrawableString.Draw(screen, getName(), x, y);
+        //DrawableString.Draw(screen, getName(), x, y);
     } // Draw(Screen);
 
     @Override

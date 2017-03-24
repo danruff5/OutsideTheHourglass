@@ -69,6 +69,12 @@ public class PlayerInventory extends Container {
         return null;
     } // FindItem(IItem);
     
+    public ItemPosition FindItemPosition(int row, int col) {
+        for (ItemPosition i : this.items)
+            if (i.row == row && i.col == col) return i;
+        return null;
+    } // FindItemPosition(int, int);
+    
     public void Draw(Screen screen) {
         int white = new Color(255, 255, 255).getRGB();
         screen.drawGrid(white, this.size, this.offsetx, this.offsety, this.rows, this.cols);

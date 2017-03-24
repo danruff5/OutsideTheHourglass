@@ -30,7 +30,7 @@ public class Potion implements IUsable {
     @Override
     public void Draw(Screen screen, int x, int y) {
         screen.drawSquare(new Color(255, 0, 0).getRGB(), 50, x + 25, y + 25);
-        DrawableString.Draw(screen, "Potion", x, y);
+        //DrawableString.Draw(screen, "Potion", x, y + 5);
     } // Draw(Screen);
 
     @Override

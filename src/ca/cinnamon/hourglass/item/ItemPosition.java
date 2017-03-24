@@ -15,6 +15,11 @@ public class ItemPosition implements IItem {
     public int row, col;
     public IItem item;
     
+    public ItemPosition(int x, int y) {
+        this.row = x;
+        this.col = y;
+    } // ItemPosition(int, int);
+    
     public ItemPosition(IItem item, int x, int y) {
         this.row = x;
         this.col = y;
