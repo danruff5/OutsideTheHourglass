@@ -6,6 +6,8 @@
 package ca.cinnamon.hourglass.item;
 
 import ca.cinnamon.hourglass.screen.Screen;
+import java.awt.Color;
+import utility.DrawableString;
 
 /**
  *
@@ -19,7 +21,9 @@ public class Sword implements IWeapon {
     } // Attack(Mob);
 
     @Override
-    public void Draw(Screen screen) {
+    public void Draw(Screen screen, int x, int y) {
+        screen.drawSquare(new Color(255, 0, 255).getRGB(), 75, x + 37, y + 37);
+        DrawableString.Draw(screen, getName(), x, y);
     } // Draw(Graphics);
 
     @Override

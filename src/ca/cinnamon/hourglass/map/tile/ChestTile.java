@@ -26,7 +26,7 @@ public class ChestTile extends Tile {
         if (E == Map.player&&!isOpen) {
             Player player = (Player)E;
             for (int i = 0; i < Math.random() * 5; i++)
-                player.inventory.items.add(new Potion(player));
+                player.inventory.AddItem(new Potion(player));
             
             X_OFFSET = WIDTH*13;
             Y_OFFSET = HEIGHT*6;

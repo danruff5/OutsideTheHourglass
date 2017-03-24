@@ -12,7 +12,7 @@ import ca.cinnamon.hourglass.screen.Screen;
  * @author dckra
  */
 public interface IItem {
-    public void Draw(Screen screen);
+    public void Draw(Screen screen, int x, int y);
     public String getName();
     public String getDescription();
 } // IItem;

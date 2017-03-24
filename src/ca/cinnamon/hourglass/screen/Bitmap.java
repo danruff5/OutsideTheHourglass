@@ -94,7 +94,8 @@ public class Bitmap{
     } // colourFill(int, int, int, int, int);
     
     public void drawLine(int colour, int x1, int y1, int x2, int y2) {
-        if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
+        if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) { 
+            // Draw line in x.
             double m = ((double)(y2 - y1) / (double)(x2 - x1));
             int start = Math.min(x1, x2);
             int end = Math.max(x1, x2);
@@ -102,7 +103,8 @@ public class Bitmap{
                 int y = y1 + (int)((double)(x - x1) * m);
                 pixels[y * this.w + x] = colour;
             }
-        } else {
+        } else { 
+            // Draw line in y.
             int start = Math.min(y1, y2);
             int end = Math.max(y1, y2);
             for (int y = start; y <= end; y++) {
@@ -126,4 +128,4 @@ public class Bitmap{
         this.drawLine(colour, startx + size, starty + size, startx, starty + size);
         this.drawLine(colour, startx + size, starty + size, startx + size, starty);
     } // drawSquare(int, int, int, int);
-}
+} // Bitmap;

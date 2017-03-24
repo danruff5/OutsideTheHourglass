@@ -8,6 +8,7 @@ package ca.cinnamon.hourglass.menu;
 import ca.cinnamon.hourglass.gui.Keys;
 import ca.cinnamon.hourglass.item.IItem;
 import ca.cinnamon.hourglass.item.PlayerInventory;
+import ca.cinnamon.hourglass.item.ItemPosition;
 import ca.cinnamon.hourglass.item.Potion;
 import ca.cinnamon.hourglass.menu.MenuManager.MenuType;
 import ca.cinnamon.hourglass.screen.Screen;
@@ -58,22 +59,16 @@ public class InventoryMenu extends Menu {
             }
         }
         
-        int white = new Color(255, 255, 255).getRGB();
-        
-        screen.drawGrid(white, 100, 50, 50, 9, 4);
-        screen.drawGrid(white, 150, 1200, 50, 1, 4);
-        screen.drawSquare(white, 150, 1050, 125);        
+        this.inventory.Draw(screen);
     } // draw(Screen);
-    
-    
 
     @Override
     public void tick() {
         if (this.keys.keys[KeyEvent.VK_H].pressed) {
-            for (IItem item : inventory.items) {
-                if (item instanceof Potion) {
-                    ((Potion)item).Use();
-                    inventory.items.remove(item);
+            for (ItemPosition i : inventory.items) {
+                if (i.item instanceof Potion) {
+                    ((Potion)i.item).Use();
+                    inventory.items.remove(i);
                     break;
                 }
             }

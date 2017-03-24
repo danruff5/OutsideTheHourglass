@@ -6,6 +6,8 @@
 package ca.cinnamon.hourglass.item;
 
 import ca.cinnamon.hourglass.screen.Screen;
+import java.awt.Color;
+import utility.DrawableString;
 
 /**
  *
@@ -23,7 +25,9 @@ public class Boots implements IWearable {
     } // Protect();
 
     @Override
-    public void Draw(Screen screen) {
+    public void Draw(Screen screen, int x, int y) {
+        screen.drawSquare(new Color(0, 255, 0).getRGB(), 75, x + 37, y + 37);
+        DrawableString.Draw(screen, getName(), x, y);
     } // Draw(Screen);
 
     @Override

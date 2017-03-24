@@ -7,6 +7,8 @@ package ca.cinnamon.hourglass.item;
 
 import ca.cinnamon.hourglass.entity.Player;
 import ca.cinnamon.hourglass.screen.Screen;
+import java.awt.Color;
+import utility.DrawableString;
 
 /**
  *
@@ -26,8 +28,9 @@ public class Potion implements IUsable {
     } // Use();
 
     @Override
-    public void Draw(Screen screen) {
-        
+    public void Draw(Screen screen, int x, int y) {
+        screen.drawSquare(new Color(255, 0, 0).getRGB(), 50, x + 25, y + 25);
+        DrawableString.Draw(screen, "Potion", x, y);
     } // Draw(Screen);
 
     @Override
@@ -39,5 +42,4 @@ public class Potion implements IUsable {
     public String getDescription() {
         return "This magical potion will give you life!";
     } // getDescription();
-    
 } // Potion;

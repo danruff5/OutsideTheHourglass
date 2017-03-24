@@ -27,5 +27,5 @@ public abstract class Container {
         items.remove(item);
     } // RemoveItem(IItem);
     
-    public abstract void DrawMenu(Screen screen);
+    //public abstract void DrawMenu(Screen screen);
 } // Container;
