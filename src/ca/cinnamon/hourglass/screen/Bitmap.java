@@ -122,10 +122,25 @@ public class Bitmap{
             this.drawLine(colour, startx, y, startx + size * cols, y);
     } // drawGrid(int, int, int, int, int, int);
     
+    public void drawRectGrid(int colour, int sizex, int sizey, int startx, int starty, int cols, int rows) {
+        for (int x = startx; x <= startx + (sizex * cols); x += sizex)
+            this.drawLine(colour, x, starty, x, starty + sizey * rows);
+        
+        for (int y = starty; y <= starty + (sizey * rows); y += sizey)
+            this.drawLine(colour, startx, y, startx + sizex * cols, y);
+    } // drawGrid(int, int, int, int, int, int, int);
+    
     public void drawSquare(int colour, int size, int startx, int starty) {
         this.drawLine(colour, startx, starty, startx + size, starty);
         this.drawLine(colour, startx, starty, startx, starty + size);
         this.drawLine(colour, startx + size, starty + size, startx, starty + size);
         this.drawLine(colour, startx + size, starty + size, startx + size, starty);
     } // drawSquare(int, int, int, int);
+    
+    public void drawRect(int colour, int sizex, int sizey, int startx, int starty) {
+        this.drawLine(colour, startx, starty, startx + sizex, starty);
+        this.drawLine(colour, startx, starty, startx, starty + sizey);
+        this.drawLine(colour, startx + sizex, starty + sizey, startx, starty + sizey);
+        this.drawLine(colour, startx + sizex, starty + sizey, startx + sizex, starty);
+    } // drawSquare(int, int, int, int, int);
 } // Bitmap;

@@ -36,6 +36,13 @@ public class ItemPosition implements IItem {
     public String getDescription() {
         return item.getDescription();
     }
+    
+//    public IItem item() {
+//        if (this.item instanceof ItemPosition)
+//            return ((ItemPosition)item).item;
+//        else
+//            return this.item;
+//    }
 
     
 } // ItemPosition;

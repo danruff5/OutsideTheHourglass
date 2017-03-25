@@ -12,6 +12,7 @@ import ca.cinnamon.hourglass.item.Chest;
 import ca.cinnamon.hourglass.item.Helmet;
 import ca.cinnamon.hourglass.item.IWeapon;
 import ca.cinnamon.hourglass.item.IWearable;
+import ca.cinnamon.hourglass.item.ItemPosition;
 import ca.cinnamon.hourglass.item.Leggings;
 import ca.cinnamon.hourglass.item.PlayerInventory;
 import ca.cinnamon.hourglass.item.Potion;
@@ -63,12 +64,12 @@ public class Player extends Mob
                 inventory.AddItem(new Potion(this));
                 inventory.AddItem(new Potion(this));
                 
-		inventory.weapon = new Sword();
-		inventory.armour = new IWearable[4];
-		inventory.armour[0] = new Helmet();
-		inventory.armour[1] = new Chest();
-		inventory.armour[2] = new Leggings();
-		inventory.armour[3] = new Boots();
+		inventory.weapon = new ItemPosition(new Sword(), 1, 1);
+		inventory.armour = new ItemPosition[4];
+		inventory.armour[0] = new ItemPosition(new Helmet(), 2, 1);
+		inventory.armour[1] = new ItemPosition(new Chest(), 2, 2);
+		inventory.armour[2] = new ItemPosition(new Leggings(), 2, 3);
+		inventory.armour[3] = new ItemPosition(new Boots(), 2, 4);
 	}
 
 	public void Tick()
@@ -162,7 +163,8 @@ public class Player extends Mob
 	public int Attack(Entity E)
 	{
 		SoundPlayer.SWORD.play();
-		return E.Hurt(inventory.weapon.Damage());
+                IWeapon weapon = (IWeapon)inventory.weapon.item;
+		return E.Hurt(weapon.Damage());
 	}
 
 	public boolean HitDetection(Entity i)
@@ -252,8 +254,10 @@ public class Player extends Mob
 	public int Hurt(int DAM)
 	{
 		double armourFactor = 0;
-		for (IWearable a : inventory.armour)
-			armourFactor += a.Protect();
+		for (ItemPosition a : inventory.armour) {
+                    IWearable armour = (IWearable)a.item;
+                    armourFactor += armour.Protect();
+                }
 
 		DAM = (int) Math.round(DAM - (DAM * (armourFactor / 100.0)));
 

@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class PlayerInventory extends Container {
     public List<ItemPosition> items; // Intentional hiding.
-    public IWeapon weapon;
-    public IWearable[] armour;
+    public ItemPosition weapon;
+    public ItemPosition[] armour;
     
     public int rows = 9, cols = 4; // TODO: create proper setters to deal with inventory resizeing.
     public int size = 100;
@@ -64,8 +64,9 @@ public class PlayerInventory extends Container {
     } // FindEmptyLocation(IItem);
     
     private ItemPosition FindItem(IItem item) {
+        ItemPosition a = (ItemPosition)item;
         for (ItemPosition i : this.items)
-            if (i.item == item) return i;
+            if (i.item == a.item) return i;
         return null;
     } // FindItem(IItem);
     
